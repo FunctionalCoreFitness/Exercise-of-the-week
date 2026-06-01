@@ -568,8 +568,9 @@
 
   <header>
     <div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgNDgwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJ0ZXh0R3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNEE3RUM3Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJkN2RkMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDwhLS0gRlVOQ1RJT05BTCBDT1JFIC0tPgogIDx0ZXh0IHg9IjEwIiB5PSI0MiIKICAgIGZvbnQtZmFtaWx5PSInQmFybG93IENvbmRlbnNlZCcsICdBcmlhbCBOYXJyb3cnLCBBcmlhbCwgc2Fucy1zZXJpZiIKICAgIGZvbnQtd2VpZ2h0PSI3MDAiCiAgICBmb250LXNpemU9IjM0IgogICAgbGV0dGVyLXNwYWNpbmc9IjMiCiAgICBmaWxsPSJ1cmwoI3RleHRHcmFkKSI+RlVOQ1RJT05BTCBDT1JFPC90ZXh0PgoKICA8IS0tIEZJVE5FU1MgLS0+CiAgPHRleHQgeD0iMTIiIHk9IjY0IgogICAgZm9udC1mYW1pbHk9IidCYXJsb3cgQ29uZGVuc2VkJywgJ0FyaWFsIE5hcnJvdycsIEFyaWFsLCBzYW5zLXNlcmlmIgogICAgZm9udC13ZWlnaHQ9IjYwMCIKICAgIGZvbnQtc2l6ZT0iMTgiCiAgICBsZXR0ZXItc3BhY2luZz0iMTIiCiAgICBmaWxsPSIjOUFBQUJCIj5GSVRORVNTPC90ZXh0PgoKICA8IS0tIEFjY2VudCBsaW5lIHVuZGVyIEZJVE5FU1MgLS0+CiAgPGxpbmUgeDE9IjEwIiB5MT0iNzAiIHgyPSIzMTAiIHkyPSI3MCIgc3Ryb2tlPSIjNEE3RUM3IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+Cg==" alt="Functional Core Fitness"></div>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div class="week-badge" id="weekBadge">Week — of 2025</div>
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+      <div class="week-badge" id="weekBadge">Week — of 2026</div>
+      <div style="font-size:0.7rem; color:var(--silver); letter-spacing:0.08em; font-family:'Barlow',sans-serif;">with Coach Omar Lima</div>
     </div>
   </header>
 
@@ -614,8 +615,11 @@
           </div>
           <div>
             <p class="channel-blurb" style="margin-bottom:8px;">Scan to watch the full tutorial on YouTube.</p>
-            <a class="yt-button" id="ytChannelLink" href="https://www.youtube.com/@FunctionalCoreFitness" target="_blank">
-              <span class="yt-icon">▶</span> Watch on YouTube
+            <a class="yt-button" id="ytWatchLink" href="#" target="_blank">
+              <span class="yt-icon">▶</span> <span id="ytWatchLabel">Watch Tutorial</span>
+            </a>
+            <a class="yt-button" id="ytPlaylistLink" href="https://www.youtube.com/@FunctionalCoreFitness" target="_blank" style="margin-top:6px; background:rgba(45,125,210,0.2); border:1px solid rgba(45,125,210,0.4); color:var(--silver);">
+              📋 Start Here Playlist
             </a>
           </div>
         </div>
@@ -1022,6 +1026,11 @@
   const videoUrl = `https://www.youtube.com/watch?v=${current.videoId}`;
   const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(videoUrl)}&color=0a1628&bgcolor=ffffff&margin=4`;
   document.getElementById('qrCode').src = qrApiUrl;
+
+  // Dynamic Watch Tutorial button
+  const exerciseTitle = current.name.charAt(0) + current.name.slice(1).toLowerCase();
+  document.getElementById('ytWatchLink').href = videoUrl;
+  document.getElementById('ytWatchLabel').textContent = `Watch the ${exerciseTitle} Tutorial`;
 
   // Populate benefits — clickable
   const benefitsGrid = document.getElementById('benefitsGrid');
