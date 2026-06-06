@@ -24,6 +24,8 @@
       font-family: 'Barlow', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
+      overflow-y: auto;
+    }
     }
 
     /* === ANIMATED BACKGROUND === */
@@ -475,15 +477,15 @@
 
     /* === IPAD OPTIMIZATION (11" = 1024px, 13" = 1366px) === */
     @media (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) {
-      body { overflow: hidden; height: 100vh; }
+      body { overflow-y: auto; height: auto; }
 
       .page {
-        padding: 0 16px 6px;
+        padding: 0 16px 24px;
         max-width: 100%;
-        height: 100vh;
+        height: auto;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        overflow: visible;
       }
 
       header {
@@ -557,6 +559,55 @@
       .bottom-row { gap: 16px; }
     }
     }
+    /* === TAP TO SKIP ZONES === */
+    .tap-zone {
+      position: absolute;
+      top: 0;
+      width: 30%;
+      height: 100%;
+      z-index: 10;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tap-left { left: 0; }
+    .tap-right { right: 0; }
+
+    .tap-hint {
+      opacity: 0;
+      color: white;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+
+    .tap-zone:active .tap-hint { opacity: 1; }
+
+    .tap-feedback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      background: rgba(0,0,0,0.6);
+      padding: 8px 20px;
+      border-radius: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 20;
+      white-space: nowrap;
+    }
+    .tap-feedback.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -587,6 +638,14 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
+      <!-- Tap zones for skip -->
+      <div class="tap-zone tap-left" id="tapLeft">
+        <div class="tap-hint">⏪ 10s</div>
+      </div>
+      <div class="tap-zone tap-right" id="tapRight">
+        <div class="tap-hint">10s ⏩</div>
+      </div>
+      <div class="tap-feedback" id="tapFeedback"></div>
     </div>
 
     <div class="sidebar">
@@ -1023,7 +1082,7 @@
 
   // Embed YouTube video
   document.getElementById('ytEmbed').src =
-    `https://www.youtube.com/embed/${current.videoId}?rel=0&modestbranding=1`;
+    `https://www.youtube.com/embed/${current.videoId}?rel=0&modestbranding=1&enablejsapi=1`;
 
   // Generate QR code for current video
   const videoUrl = `https://www.youtube.com/watch?v=${current.videoId}`;
@@ -1088,6 +1147,40 @@
     tipsList.innerHTML += `
       <li><div class="tip-dot"></div><span>${tip}</span></li>`;
   });
+
+  // === TAP TO SKIP (double-tap left = -10s, double-tap right = +10s) ===
+  let tapTimer = null;
+  let tapCount = 0;
+  const feedback = document.getElementById('tapFeedback');
+
+  function showFeedback(msg) {
+    feedback.textContent = msg;
+    feedback.classList.add('show');
+    clearTimeout(feedback._timer);
+    feedback._timer = setTimeout(() => feedback.classList.remove('show'), 800);
+  }
+
+  function handleTap(direction) {
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => {
+      if (tapCount >= 2) {
+        const iframe = document.getElementById('ytEmbed');
+        const src = iframe.src;
+        // Use YouTube iframe API postMessage to seek
+        iframe.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: direction === 'back' ? 'seekBy' : 'seekBy',
+          args: [direction === 'back' ? -10 : 10]
+        }), '*');
+        showFeedback(direction === 'back' ? '⏪ -10s' : '+10s ⏩');
+      }
+      tapCount = 0;
+    }, 300);
+  }
+
+  document.getElementById('tapLeft').addEventListener('click', () => handleTap('back'));
+  document.getElementById('tapRight').addEventListener('click', () => handleTap('forward'));
 </script>
 </body>
 </html>
