@@ -577,44 +577,35 @@
       .bottom-row { gap: 16px; }
     }
 
-    /* === TAP TO SKIP ZONES === */
-    .tap-zone {
+    /* === SWIPE NAVIGATION === */
+    .swipe-hint {
       position: absolute;
-      top: 0;
-      width: 30%;
-      height: 100%;
-      z-index: 10;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .tap-left { left: 0; }
-    .tap-right { right: 0; }
-    .tap-hint {
-      opacity: 0;
-      color: white;
-      font-family: 'Barlow', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
-      background: rgba(0,0,0,0.5);
-      padding: 6px 12px;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(0,0,0,0.4);
+      padding: 4px 14px;
       border-radius: 20px;
-      transition: opacity 0.15s;
       pointer-events: none;
+      z-index: 5;
     }
-    .tap-zone:active .tap-hint { opacity: 1; }
-    .tap-feedback {
+    .swipe-feedback {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       color: white;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       letter-spacing: 0.1em;
-      background: rgba(0,0,0,0.6);
-      padding: 8px 20px;
+      background: rgba(0,0,0,0.65);
+      padding: 10px 24px;
       border-radius: 24px;
       opacity: 0;
       pointer-events: none;
@@ -622,7 +613,15 @@
       z-index: 20;
       white-space: nowrap;
     }
-    .tap-feedback.show { opacity: 1; }
+    .swipe-feedback.show { opacity: 1; }
+
+    /* === ANATOMY SVG === */
+    .anatomy-wrap { display:flex; gap:6px; }
+    .anatomy-body { width:70px; }
+    .anatomy-body svg { width:100%; height:auto; }
+    .muscle-region { fill: rgba(45,125,210,0.15); stroke: rgba(45,125,210,0.3); stroke-width:1; transition: fill 0.3s, stroke 0.3s; }
+    .muscle-region.active { fill: rgba(245,166,35,0.6); stroke: #f5a623; stroke-width:1.5; }
+    .body-outline { fill: rgba(255,255,255,0.06); stroke: rgba(255,255,255,0.2); stroke-width:1; }
   </style>
 </head>
 <body>
@@ -653,9 +652,8 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
-      <div class="tap-zone tap-left" id="tapLeft"><div class="tap-hint">⏪ 10s</div></div>
-      <div class="tap-zone tap-right" id="tapRight"><div class="tap-hint">10s ⏩</div></div>
-      <div class="tap-feedback" id="tapFeedback"></div>
+      <div class="swipe-hint">← swipe to browse exercises →</div>
+      <div class="swipe-feedback" id="swipeFeedback"></div>
     </div>
 
     <div class="sidebar">
@@ -666,7 +664,10 @@
 
       <div class="card">
         <div class="card-title">Muscles Worked</div>
-        <div class="muscles-list" id="musclesList"></div>
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <div id="anatomySvg" style="flex-shrink:0;"></div>
+          <div class="muscles-list" id="musclesList" style="padding-top:4px;"></div>
+        </div>
       </div>
 
       <div class="card">
@@ -880,7 +881,7 @@
     {
       name: "BRIDGE",
       tagline: "Glute Activation & Hip Strength.",
-      videoId: "wiFNA3sqjCA",
+      videoId: "KwleMZ5V7Ow",
       desc: "The Bridge is the foundational glute exercise — building hip extension strength, pelvic stability, and lower back health from the ground up.",
       muscles: ["Glutes", "Hamstrings", "Core", "Lower Back"],
       benefits: [
@@ -1171,7 +1172,7 @@
   document.getElementById('ytWatchLink').href = videoUrl;
   document.getElementById('ytWatchLabel').textContent = `Watch the ${exerciseTitle} Tutorial`;
 
-  // Muscles
+  // Muscles + Anatomy SVG
   const musclesList = document.getElementById('musclesList');
   current.muscles.forEach(m => {
     const tag = document.createElement('span');
@@ -1179,6 +1180,7 @@
     tag.textContent = m;
     musclesList.appendChild(tag);
   });
+  document.getElementById('anatomySvg').innerHTML = buildAnatomySVG(current.muscles);
 
   // Benefits
   const benefitsGrid = document.getElementById('benefitsGrid');
@@ -1230,31 +1232,242 @@
       document.getElementById('modalOverlay').classList.remove('active');
   });
 
-  // === TAP TO SKIP ===
-  let tapTimer = null, tapCount = 0;
-  const feedback = document.getElementById('tapFeedback');
-  function showFeedback(msg) {
-    feedback.textContent = msg;
-    feedback.classList.add('show');
-    clearTimeout(feedback._timer);
-    feedback._timer = setTimeout(() => feedback.classList.remove('show'), 800);
+  // === SWIPE TO NAVIGATE EXERCISES ===
+  let swipeStartX = 0;
+  let swipeStartY = 0;
+  const videoWrap = document.querySelector('.video-wrap');
+  const swipeFeedback = document.getElementById('swipeFeedback');
+
+  function showSwipeFeedback(msg) {
+    swipeFeedback.textContent = msg;
+    swipeFeedback.classList.add('show');
+    clearTimeout(swipeFeedback._timer);
+    swipeFeedback._timer = setTimeout(() => swipeFeedback.classList.remove('show'), 900);
   }
-  function handleTap(direction) {
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => {
-      if (tapCount >= 2) {
-        document.getElementById('ytEmbed').contentWindow.postMessage(JSON.stringify({
-          event: 'command', func: 'seekBy',
-          args: [direction === 'back' ? -10 : 10]
-        }), '*');
-        showFeedback(direction === 'back' ? '⏪ -10s' : '+10s ⏩');
+
+  function loadExercise(index) {
+    const ex = exercises[((index % exercises.length) + exercises.length) % exercises.length];
+
+    document.getElementById('exerciseName').textContent = ex.name;
+    document.getElementById('exerciseTagline').textContent = ex.tagline;
+    document.getElementById('exerciseDesc').textContent = ex.desc;
+
+    const nextEx = exercises[((index + 1) % exercises.length + exercises.length) % exercises.length];
+    document.getElementById('nextExercise').textContent = nextEx.name;
+
+    const title = ex.name.charAt(0) + ex.name.slice(1).toLowerCase();
+    document.getElementById('videoLabel').textContent = `▶ Watch the ${title} Tutorial`;
+
+    document.getElementById('ytEmbed').src =
+      `https://www.youtube.com/embed/${ex.videoId}?rel=0&modestbranding=1&enablejsapi=1`;
+
+    const url = `https://www.youtube.com/watch?v=${ex.videoId}`;
+    document.getElementById('qrCode').src =
+      `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}&color=0a1628&bgcolor=ffffff&margin=4`;
+    document.getElementById('ytWatchLink').href = url;
+    document.getElementById('ytWatchLabel').textContent = `Watch the ${title} Tutorial`;
+
+    // Muscles + Anatomy SVG
+    const musclesList = document.getElementById('musclesList');
+    musclesList.innerHTML = '';
+    ex.muscles.forEach(m => {
+      const tag = document.createElement('span');
+      tag.className = 'muscle-tag';
+      tag.textContent = m;
+      musclesList.appendChild(tag);
+    });
+    document.getElementById('anatomySvg').innerHTML = buildAnatomySVG(ex.muscles);
+
+    // Benefits
+    const benefitsGrid = document.getElementById('benefitsGrid');
+    benefitsGrid.innerHTML = '';
+    ex.benefits.forEach(b => {
+      const div = document.createElement('div');
+      div.className = 'benefit';
+      div.innerHTML = `<div class="benefit-icon">${b.icon}</div><div class="benefit-text">${b.text}</div>`;
+      div.addEventListener('click', () => openBenefitModal(b.text));
+      benefitsGrid.appendChild(div);
+    });
+
+    // Tips
+    const tipsList = document.getElementById('tipsList');
+    tipsList.innerHTML = '';
+    ex.tips.forEach(tip => {
+      tipsList.innerHTML += `<li><div class="tip-dot"></div><span>${tip}</span></li>`;
+    });
+  }
+
+  let currentExerciseIndex = currentIndex;
+
+  videoWrap.addEventListener('touchstart', (e) => {
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  videoWrap.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - swipeStartX;
+    const dy = e.changedTouches[0].clientY - swipeStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) {
+        currentExerciseIndex++;
+        const ex = exercises[currentExerciseIndex % exercises.length];
+        showSwipeFeedback(`→ ${ex.name}`);
+        loadExercise(currentExerciseIndex);
+      } else {
+        currentExerciseIndex--;
+        const ex = exercises[((currentExerciseIndex % exercises.length) + exercises.length) % exercises.length];
+        showSwipeFeedback(`← ${ex.name}`);
+        loadExercise(currentExerciseIndex);
       }
-      tapCount = 0;
-    }, 300);
+    }
+  }, { passive: true });
+
+  // ================================================================
+  // ANATOMY SVG BUILDER
+  // ================================================================
+  // Muscle region keys map to SVG path IDs
+  const muscleMap = {
+    // Front body
+    "Quads":                  ["front-quads-l","front-quads-r"],
+    "Pectorals":              ["front-chest"],
+    "Rectus Abdominis":       ["front-rectus"],
+    "Transverse Abdominis":   ["front-transverse"],
+    "Obliques":               ["front-obliques-l","front-obliques-r"],
+    "Lower Abs":              ["front-lower-abs"],
+    "Hip Flexors":            ["front-hip-flexors-l","front-hip-flexors-r"],
+    "Anterior Deltoid":       ["front-shoulder-l","front-shoulder-r"],
+    "Shoulders":              ["front-shoulder-l","front-shoulder-r","back-shoulder-l","back-shoulder-r"],
+    "Triceps":                ["back-triceps-l","back-triceps-r"],
+    "Adductors":              ["front-adductors-l","front-adductors-r"],
+    "Calves":                 ["back-calves-l","back-calves-r"],
+    "Peroneals":              ["front-calves-l","front-calves-r"],
+    "Tibialis Anterior":      ["front-tibialis-l","front-tibialis-r"],
+    // Back body
+    "Glutes":                 ["back-glutes-l","back-glutes-r"],
+    "Glute Medius":           ["back-glute-med-l","back-glute-med-r"],
+    "Glute Minimus":          ["back-glute-med-l","back-glute-med-r"],
+    "Hamstrings":             ["back-hamstrings-l","back-hamstrings-r"],
+    "Erector Spinae":         ["back-erector-l","back-erector-r"],
+    "Lower Back":             ["back-lower-back"],
+    "Hip Abductors":          ["back-glute-med-l","back-glute-med-r"],
+    "Hip Stabilizers":        ["back-glute-med-l","back-glute-med-r","front-hip-flexors-l","front-hip-flexors-r"],
+    "Shoulder Stabilizers":   ["front-shoulder-l","front-shoulder-r","back-shoulder-l","back-shoulder-r"],
+    "Core":                   ["front-transverse","front-rectus","front-obliques-l","front-obliques-r"],
+    "Pelvic Floor":           ["front-lower-abs"],
+    "Hip Rotators":           ["back-glutes-l","back-glutes-r"],
+    "TFL":                    ["back-glute-med-l","back-glute-med-r"],
+  };
+
+  function buildAnatomySVG(muscles) {
+    const activeIds = new Set();
+    muscles.forEach(m => {
+      const ids = muscleMap[m] || [];
+      ids.forEach(id => activeIds.add(id));
+    });
+
+    function cls(id) { return activeIds.has(id) ? 'muscle-region active' : 'muscle-region'; }
+
+    const frontSVG = `<svg viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">
+      <!-- Head -->
+      <ellipse cx="30" cy="9" rx="8" ry="9" class="body-outline"/>
+      <!-- Neck -->
+      <rect x="26" y="17" width="8" height="6" class="body-outline"/>
+      <!-- Torso -->
+      <rect x="17" y="23" width="26" height="36" rx="4" class="body-outline"/>
+      <!-- Chest -->
+      <ellipse id="front-chest" cx="24" cy="30" rx="6" ry="5" class="${cls('front-chest')}"/>
+      <ellipse cx="36" cy="30" rx="6" ry="5" class="${cls('front-chest')}"/>
+      <!-- Shoulders -->
+      <ellipse id="front-shoulder-l" cx="12" cy="27" rx="5" ry="6" class="${cls('front-shoulder-l')}"/>
+      <ellipse id="front-shoulder-r" cx="48" cy="27" rx="5" ry="6" class="${cls('front-shoulder-r')}"/>
+      <!-- Arms -->
+      <rect x="7" y="33" width="7" height="18" rx="3" class="body-outline"/>
+      <rect x="46" y="33" width="7" height="18" rx="3" class="body-outline"/>
+      <!-- Forearms -->
+      <rect x="7" y="53" width="6" height="15" rx="3" class="body-outline"/>
+      <rect x="47" y="53" width="6" height="15" rx="3" class="body-outline"/>
+      <!-- Rectus Abdominis -->
+      <rect id="front-rectus" x="25" y="37" width="10" height="16" rx="2" class="${cls('front-rectus')}"/>
+      <!-- Transverse Abdominis (wider band) -->
+      <rect id="front-transverse" x="19" y="39" width="22" height="12" rx="3" class="${cls('front-transverse')}"/>
+      <!-- Obliques -->
+      <path id="front-obliques-l" d="M17,36 Q19,42 20,52 L17,52 Z" class="${cls('front-obliques-l')}"/>
+      <path id="front-obliques-r" d="M43,36 Q41,42 40,52 L43,52 Z" class="${cls('front-obliques-r')}"/>
+      <!-- Lower Abs -->
+      <ellipse id="front-lower-abs" cx="30" cy="54" rx="8" ry="4" class="${cls('front-lower-abs')}"/>
+      <!-- Hip Flexors -->
+      <ellipse id="front-hip-flexors-l" cx="23" cy="61" rx="5" ry="4" class="${cls('front-hip-flexors-l')}"/>
+      <ellipse id="front-hip-flexors-r" cx="37" cy="61" rx="5" ry="4" class="${cls('front-hip-flexors-r')}"/>
+      <!-- Adductors -->
+      <path id="front-adductors-l" d="M22,65 Q24,75 23,85 L20,85 Q19,75 20,65 Z" class="${cls('front-adductors-l')}"/>
+      <path id="front-adductors-r" d="M38,65 Q36,75 37,85 L40,85 Q41,75 40,65 Z" class="${cls('front-adductors-r')}"/>
+      <!-- Quads -->
+      <rect id="front-quads-l" x="18" y="65" width="11" height="28" rx="4" class="${cls('front-quads-l')}"/>
+      <rect id="front-quads-r" x="31" y="65" width="11" height="28" rx="4" class="${cls('front-quads-r')}"/>
+      <!-- Knees -->
+      <ellipse cx="23" cy="95" rx="5" ry="4" class="body-outline"/>
+      <ellipse cx="37" cy="95" rx="5" ry="4" class="body-outline"/>
+      <!-- Tibialis -->
+      <rect id="front-tibialis-l" x="19" y="100" width="7" height="18" rx="3" class="${cls('front-tibialis-l')}"/>
+      <rect id="front-tibialis-r" x="34" y="100" width="7" height="18" rx="3" class="${cls('front-tibialis-r')}"/>
+      <!-- Front Calves / Peroneals -->
+      <rect id="front-calves-l" x="18" y="100" width="9" height="18" rx="3" class="${cls('front-calves-l')}"/>
+      <rect id="front-calves-r" x="33" y="100" width="9" height="18" rx="3" class="${cls('front-calves-r')}"/>
+      <!-- Feet -->
+      <ellipse cx="22" cy="120" rx="6" ry="3" class="body-outline"/>
+      <ellipse cx="38" cy="120" rx="6" ry="3" class="body-outline"/>
+    </svg>`;
+
+    const backSVG = `<svg viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">
+      <!-- Head -->
+      <ellipse cx="30" cy="9" rx="8" ry="9" class="body-outline"/>
+      <!-- Neck -->
+      <rect x="26" y="17" width="8" height="6" class="body-outline"/>
+      <!-- Torso -->
+      <rect x="17" y="23" width="26" height="36" rx="4" class="body-outline"/>
+      <!-- Back Shoulders -->
+      <ellipse id="back-shoulder-l" cx="12" cy="27" rx="5" ry="6" class="${cls('back-shoulder-l')}"/>
+      <ellipse id="back-shoulder-r" cx="48" cy="27" rx="5" ry="6" class="${cls('back-shoulder-r')}"/>
+      <!-- Arms -->
+      <rect x="7" y="33" width="7" height="18" rx="3" class="body-outline"/>
+      <rect x="46" y="33" width="7" height="18" rx="3" class="body-outline"/>
+      <!-- Triceps -->
+      <rect id="back-triceps-l" x="7" y="33" width="7" height="14" rx="3" class="${cls('back-triceps-l')}"/>
+      <rect id="back-triceps-r" x="46" y="33" width="7" height="14" rx="3" class="${cls('back-triceps-r')}"/>
+      <!-- Forearms -->
+      <rect x="7" y="53" width="6" height="15" rx="3" class="body-outline"/>
+      <rect x="47" y="53" width="6" height="15" rx="3" class="body-outline"/>
+      <!-- Erector Spinae -->
+      <rect id="back-erector-l" x="24" y="25" width="5" height="30" rx="2" class="${cls('back-erector-l')}"/>
+      <rect id="back-erector-r" x="31" y="25" width="5" height="30" rx="2" class="${cls('back-erector-r')}"/>
+      <!-- Lower Back -->
+      <rect id="back-lower-back" x="22" y="48" width="16" height="10" rx="2" class="${cls('back-lower-back')}"/>
+      <!-- Glute Med -->
+      <ellipse id="back-glute-med-l" cx="22" cy="60" rx="6" ry="4" class="${cls('back-glute-med-l')}"/>
+      <ellipse id="back-glute-med-r" cx="38" cy="60" rx="6" ry="4" class="${cls('back-glute-med-r')}"/>
+      <!-- Glutes -->
+      <ellipse id="back-glutes-l" cx="23" cy="67" rx="7" ry="6" class="${cls('back-glutes-l')}"/>
+      <ellipse id="back-glutes-r" cx="37" cy="67" rx="7" ry="6" class="${cls('back-glutes-r')}"/>
+      <!-- Hamstrings -->
+      <rect id="back-hamstrings-l" x="18" y="72" width="11" height="22" rx="4" class="${cls('back-hamstrings-l')}"/>
+      <rect id="back-hamstrings-r" x="31" y="72" width="11" height="22" rx="4" class="${cls('back-hamstrings-r')}"/>
+      <!-- Knees -->
+      <ellipse cx="23" cy="95" rx="5" ry="4" class="body-outline"/>
+      <ellipse cx="37" cy="95" rx="5" ry="4" class="body-outline"/>
+      <!-- Calves -->
+      <rect id="back-calves-l" x="19" y="100" width="8" height="18" rx="3" class="${cls('back-calves-l')}"/>
+      <rect id="back-calves-r" x="33" y="100" width="8" height="18" rx="3" class="${cls('back-calves-r')}"/>
+      <!-- Feet -->
+      <ellipse cx="22" cy="120" rx="6" ry="3" class="body-outline"/>
+      <ellipse cx="38" cy="120" rx="6" ry="3" class="body-outline"/>
+    </svg>`;
+
+    return `<div class="anatomy-wrap">
+      <div class="anatomy-body">${frontSVG}</div>
+      <div class="anatomy-body">${backSVG}</div>
+    </div>`;
   }
-  document.getElementById('tapLeft').addEventListener('click', () => handleTap('back'));
-  document.getElementById('tapRight').addEventListener('click', () => handleTap('forward'));
+
 </script>
 </body>
 </html>
