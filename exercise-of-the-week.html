@@ -26,7 +26,6 @@
       overflow-x: hidden;
       overflow-y: auto;
     }
-    }
 
     /* === ANIMATED BACKGROUND === */
     .bg-grid {
@@ -130,10 +129,10 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* === MAIN GRID === */
+    /* === MAIN GRID — video smaller, sidebar wider === */
     .main-grid {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 380px;
       gap: 28px;
       margin-bottom: 28px;
       animation: fadeUp 0.5s 0.3s ease both;
@@ -175,6 +174,7 @@
       text-transform: uppercase;
       padding: 4px 12px;
       border-radius: 100px;
+      z-index: 5;
     }
 
     /* === SIDEBAR === */
@@ -213,7 +213,12 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 4px;
+      transition: background 0.15s;
     }
+    .benefit:hover { background: rgba(45,125,210,0.15); }
     .benefit-icon {
       width: 36px; height: 36px;
       background: rgba(45,125,210,0.15);
@@ -234,6 +239,26 @@
       color: var(--white);
       line-height: 1.3;
       padding-top: 2px;
+      text-decoration: underline dotted rgba(255,255,255,0.3);
+    }
+
+    /* Muscles */
+    .muscles-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .muscle-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--silver);
+      background: rgba(45,125,210,0.12);
+      border: 1px solid rgba(45,125,210,0.25);
+      border-radius: 100px;
+      padding: 3px 10px;
     }
 
     /* Next Week */
@@ -261,38 +286,6 @@
       border: 1px solid rgba(245,166,35,0.25);
       border-radius: 100px;
       padding: 3px 12px;
-    }
-
-    /* === BOTTOM ROW === */
-    .bottom-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      animation: fadeUp 0.5s 0.4s ease both;
-    }
-    @media (max-width: 600px) {
-      .bottom-row { grid-template-columns: 1fr; }
-    }
-
-    /* Tips */
-    .tips-list { list-style: none; }
-    .tips-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-size: 0.9rem;
-      color: var(--silver);
-      line-height: 1.4;
-    }
-    .tips-list li:last-child { border-bottom: none; }
-    .tip-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-      margin-top: 6px;
     }
 
     /* Channel CTA */
@@ -328,6 +321,38 @@
       font-size: 0.88rem;
       color: var(--silver);
       line-height: 1.5;
+    }
+
+    /* === BOTTOM ROW === */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      animation: fadeUp 0.5s 0.4s ease both;
+    }
+    @media (max-width: 600px) {
+      .bottom-row { grid-template-columns: 1fr; }
+    }
+
+    /* Tips */
+    .tips-list { list-style: none; }
+    .tips-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+      color: var(--silver);
+      line-height: 1.4;
+    }
+    .tips-list li:last-child { border-bottom: none; }
+    .tip-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      margin-top: 6px;
     }
 
     /* === FOOTER === */
@@ -454,15 +479,6 @@
       margin-left: 12px;
     }
 
-    /* Make benefits clickable */
-    .benefit {
-      cursor: pointer;
-      border-radius: 10px;
-      padding: 4px;
-      transition: background 0.15s;
-    }
-    .benefit:hover { background: rgba(45,125,210,0.15); }
-    .benefit-text { text-decoration: underline dotted rgba(255,255,255,0.3); }
     .gold-line {
       height: 3px;
       background: linear-gradient(90deg, var(--gold), var(--accent), transparent);
@@ -475,7 +491,7 @@
       to { transform: scaleX(1); transform-origin: left; }
     }
 
-    /* === IPAD OPTIMIZATION (11" = 1024px, 13" = 1366px) === */
+    /* === IPAD OPTIMIZATION === */
     @media (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) {
       body { overflow-y: auto; height: auto; }
 
@@ -508,8 +524,9 @@
 
       .gold-line { margin-bottom: 8px; height: 2px; }
 
+      /* Video column narrower, sidebar wider */
       .main-grid {
-        grid-template-columns: 1fr 260px;
+        grid-template-columns: 1fr 300px;
         gap: 12px;
         margin-bottom: 8px;
         flex-shrink: 0;
@@ -519,11 +536,13 @@
 
       .card { padding: 8px 12px; border-radius: 10px; }
       .card-title { margin-bottom: 5px; font-size: 0.65rem; }
-      .description { font-size: 0.75rem; line-height: 1.35; }
+      .description { font-size: 0.78rem; line-height: 1.4; }
 
       .benefit-icon { width: 24px; height: 24px; font-size: 0.75rem; border-radius: 7px; }
       .benefit-text { font-size: 0.62rem; }
       .benefits-grid { gap: 5px; }
+
+      .muscle-tag { font-size: 0.62rem; padding: 2px 8px; }
 
       .next-week-label { font-size: 0.7rem; }
       .next-week-name { font-size: 1.2rem; }
@@ -532,7 +551,6 @@
       .channel-blurb { font-size: 0.7rem; margin-bottom: 0 !important; }
       .yt-button { padding: 6px 12px; font-size: 0.75rem; margin-top: 6px; border-radius: 8px; }
 
-      /* QR code smaller to fit */
       #qrCode { width: 60px !important; height: 60px !important; }
 
       .bottom-row {
@@ -554,11 +572,11 @@
       header { padding: 14px 0 10px; margin-bottom: 16px; }
       .brand img { height: 42px; }
       .exercise-name { font-size: clamp(3.5rem, 10vw, 5.5rem); }
-      .main-grid { grid-template-columns: 1fr 260px; gap: 18px; }
+      .main-grid { grid-template-columns: 1fr 280px; gap: 18px; }
       .card { padding: 16px; }
       .bottom-row { gap: 16px; }
     }
-    }
+
     /* === TAP TO SKIP ZONES === */
     .tap-zone {
       position: absolute;
@@ -573,7 +591,6 @@
     }
     .tap-left { left: 0; }
     .tap-right { right: 0; }
-
     .tap-hint {
       opacity: 0;
       color: white;
@@ -586,9 +603,7 @@
       transition: opacity 0.15s;
       pointer-events: none;
     }
-
     .tap-zone:active .tap-hint { opacity: 1; }
-
     .tap-feedback {
       position: absolute;
       top: 50%;
@@ -632,19 +647,14 @@
 
   <div class="main-grid">
     <div class="video-wrap">
-      <div class="video-label">▶ Watch Now</div>
+      <div class="video-label" id="videoLabel">▶ Watch Tutorial</div>
       <iframe id="ytEmbed"
         src=""
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
-      <!-- Tap zones for skip -->
-      <div class="tap-zone tap-left" id="tapLeft">
-        <div class="tap-hint">⏪ 10s</div>
-      </div>
-      <div class="tap-zone tap-right" id="tapRight">
-        <div class="tap-hint">10s ⏩</div>
-      </div>
+      <div class="tap-zone tap-left" id="tapLeft"><div class="tap-hint">⏪ 10s</div></div>
+      <div class="tap-zone tap-right" id="tapRight"><div class="tap-hint">10s ⏩</div></div>
       <div class="tap-feedback" id="tapFeedback"></div>
     </div>
 
@@ -652,6 +662,11 @@
       <div class="card">
         <div class="card-title">About This Exercise</div>
         <p class="description" id="exerciseDesc"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Muscles Worked</div>
+        <div class="muscles-list" id="musclesList"></div>
       </div>
 
       <div class="card">
@@ -696,6 +711,20 @@
     </div>
   </div>
 
+  <div class="bottom-row">
+    <div class="card">
+      <div class="card-title">Coach Tips</div>
+      <ul class="tips-list" id="tipsList"></ul>
+    </div>
+    <div class="card channel-card">
+      <div class="card-title">More from Coach Omar</div>
+      <p class="channel-blurb">New exercise tutorials every week at Functional Core Fitness — Movement Foundations for everyone.</p>
+      <a class="yt-button" href="https://www.youtube.com/@FunctionalCoreFitness" target="_blank">
+        <span class="yt-icon">▶</span> Visit the Channel
+      </a>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-brand">Functional Core Fitness</div>
     <div class="footer-note">Updates automatically every week • No login required</div>
@@ -714,23 +743,13 @@
 </div>
 
 <script>
-  // ================================================================
-  // 🏋️ EXERCISE ROTATION — YOUR FULL LIBRARY
-  // ================================================================
-  // HOW TO USE:
-  //   1. Replace "VIDEO_ID_HERE" with your YouTube video ID
-  //      e.g. for youtube.com/watch?v=ABC123xyz → use "ABC123xyz"
-  //   2. The site picks the exercise based on the current week number
-  //   3. After 20 weeks it loops back to week 1 automatically
-  //   4. Add as many exercises as you want!
-  // ================================================================
-
   const exercises = [
     {
       name: "BIRD DOG",
       tagline: "Core Stability & Balance.",
       videoId: "rDerTS524Og",
       desc: "The Bird Dog is one of the best exercises to improve core stability, balance, and spinal control. It strengthens your lower back, glutes, and deep abdominal muscles for better coordination and posture.",
+      muscles: ["Erector Spinae", "Glutes", "Core", "Shoulder Stabilizers"],
       benefits: [
         { icon: "🔒", text: "Core Stability" },
         { icon: "🍑", text: "Glute Activation" },
@@ -749,6 +768,7 @@
       tagline: "Core Stability & Control.",
       videoId: "DYf9ozrQ8-M",
       desc: "The Dead Bug Hold teaches your core to stabilize the spine while your limbs move independently — essential for injury prevention and athletic performance.",
+      muscles: ["Transverse Abdominis", "Hip Flexors", "Shoulder Stabilizers"],
       benefits: [
         { icon: "🔒", text: "Core Stability" },
         { icon: "🧠", text: "Motor Control" },
@@ -767,6 +787,7 @@
       tagline: "Core Strength & Pelvic Stability.",
       videoId: "cyR2dI936yQ",
       desc: "Leg Lowers target your lower abs and pelvic stability — training your core to control your lower body under load while protecting the lumbar spine.",
+      muscles: ["Transverse Abdominis", "Hip Flexors", "Lower Abs"],
       benefits: [
         { icon: "💪", text: "Core Strength" },
         { icon: "🔒", text: "Pelvic Stability" },
@@ -785,6 +806,7 @@
       tagline: "Anti-Rotation Core Strength.",
       videoId: "toesHgIHcgo",
       desc: "The Pallof Press is an anti-rotation exercise that builds rotational stability — one of the most overlooked and important core qualities for sport and daily life.",
+      muscles: ["Transverse Abdominis", "Obliques", "Chest", "Shoulders"],
       benefits: [
         { icon: "🔒", text: "Core Stability" },
         { icon: "💪", text: "Core Strength" },
@@ -803,6 +825,7 @@
       tagline: "Core Stability & Pelvic Control.",
       videoId: "J6EdMjlfHmc",
       desc: "The Bent-Knee Fallout challenges your core's ability to maintain a neutral pelvis while your legs move — a key skill for injury prevention and functional strength.",
+      muscles: ["Transverse Abdominis", "Pelvic Floor", "Hip Rotators"],
       benefits: [
         { icon: "🔒", text: "Pelvic Stability" },
         { icon: "🔒", text: "Core Stability" },
@@ -821,6 +844,7 @@
       tagline: "Core Bracing & Lower Ab Control.",
       videoId: "e3lxOV2Z9J8",
       desc: "The Heel Slide is a beginner-friendly core exercise that builds lower ab strength and teaches proper lumbar bracing — the foundation of all core training.",
+      muscles: ["Transverse Abdominis", "Hip Flexors", "Core"],
       benefits: [
         { icon: "💪", text: "Core Strength" },
         { icon: "🔒", text: "Core Stability" },
@@ -839,6 +863,7 @@
       tagline: "Glute Strength & Pelvic Control.",
       videoId: "Ydbdd7m7-W4",
       desc: "The Bridge March combines glute activation with single-leg pelvic stability — challenging your hip strength and core control at the same time.",
+      muscles: ["Glutes", "Hamstrings", "Hip Flexors", "Core"],
       benefits: [
         { icon: "🍑", text: "Glute Activation" },
         { icon: "🔒", text: "Pelvic Stability" },
@@ -853,10 +878,30 @@
       ],
     },
     {
+      name: "BRIDGE",
+      tagline: "Glute Activation & Hip Strength.",
+      videoId: "wiFNA3sqjCA",
+      desc: "The Bridge is the foundational glute exercise — building hip extension strength, pelvic stability, and lower back health from the ground up.",
+      muscles: ["Glutes", "Hamstrings", "Core", "Lower Back"],
+      benefits: [
+        { icon: "🍑", text: "Glute Activation" },
+        { icon: "🦵", text: "Hip Strength" },
+        { icon: "🔒", text: "Pelvic Stability" },
+        { icon: "🛡️", text: "Lumbar Protection" },
+      ],
+      tips: [
+        "Drive through your heels, not your toes",
+        "Squeeze your glutes at the top — hold 1–2 seconds",
+        "Keep your core braced throughout",
+        "Don't hyperextend your lower back at the top",
+      ],
+    },
+    {
       name: "SINGLE-LEG ALPHABET TRACE",
       tagline: "Ankle, Knee & Hip Stability.",
       videoId: "HCP0Ff2drVE",
       desc: "The Single-Leg Alphabet Trace challenges ankle stability, proprioception, and hip control all at once — a powerful drill for balance and injury prevention.",
+      muscles: ["Peroneals", "Tibialis Anterior", "Hip Stabilizers", "Core"],
       benefits: [
         { icon: "⚖️", text: "Balance & Control" },
         { icon: "🦵", text: "Hip Strength" },
@@ -875,6 +920,7 @@
       tagline: "Build Strength & Protect Your Back.",
       videoId: "QojJl6xChfY",
       desc: "The Hip Hinge is the foundational movement pattern behind deadlifts, RDLs, and kettlebell swings. Mastering it protects your back and builds serious posterior chain strength.",
+      muscles: ["Hamstrings", "Glutes", "Erector Spinae", "Core"],
       benefits: [
         { icon: "💪", text: "Core Strength" },
         { icon: "🍑", text: "Glute Activation" },
@@ -889,10 +935,30 @@
       ],
     },
     {
+      name: "ROMANIAN DEADLIFT",
+      tagline: "Hamstring Strength & Hip Hinge Mastery.",
+      videoId: "JCXUYuzwNrM",
+      desc: "The Romanian Deadlift builds serious hamstring and glute strength while reinforcing the hip hinge pattern — essential for athletic performance and lower back health.",
+      muscles: ["Hamstrings", "Glutes", "Lower Back", "Core"],
+      benefits: [
+        { icon: "💪", text: "Core Strength" },
+        { icon: "🍑", text: "Glute Activation" },
+        { icon: "🏃", text: "Athletic Performance" },
+        { icon: "🛡️", text: "Lumbar Protection" },
+      ],
+      tips: [
+        "Keep the bar or weight close to your body",
+        "Hinge at the hip — feel the hamstring stretch",
+        "Neutral spine the entire rep",
+        "Drive hips forward to return — not your back",
+      ],
+    },
+    {
       name: "LUNGE",
       tagline: "Strength, Stability & Knee Health.",
       videoId: "4_G9-JLud6U",
       desc: "The Lunge builds single-leg strength, hip stability, and knee health. Coach Omar breaks down proper technique to maximize results and minimize injury risk.",
+      muscles: ["Quads", "Glutes", "Hamstrings", "Calves", "Core"],
       benefits: [
         { icon: "🦵", text: "Hip Strength" },
         { icon: "⚖️", text: "Balance & Control" },
@@ -911,6 +977,7 @@
       tagline: "Balance, Hip Stability & Knee Control.",
       videoId: "xYtrS20PP_0",
       desc: "The Single-Leg Forward Reach challenges hip stability, balance, and knee control in a functional movement pattern that transfers directly to sport and daily life.",
+      muscles: ["Glutes", "Hamstrings", "Core", "Hip Stabilizers"],
       benefits: [
         { icon: "⚖️", text: "Balance & Control" },
         { icon: "🦵", text: "Hip Strength" },
@@ -929,6 +996,7 @@
       tagline: "Balance, Hip Stability & Strength.",
       videoId: "4nIUUVuuOr4",
       desc: "The Single-Leg RDL develops unilateral hamstring strength, hip stability, and balance — exposing and correcting left-right imbalances for better athletic performance.",
+      muscles: ["Hamstrings", "Glutes", "Core", "Hip Stabilizers"],
       benefits: [
         { icon: "⚖️", text: "Balance & Control" },
         { icon: "🦵", text: "Hip Strength" },
@@ -947,6 +1015,7 @@
       tagline: "A Simple Exercise Everyone Should Do.",
       videoId: "3z72ZfGDXXw",
       desc: "Kneeling to Tall Kneeling builds hip flexor strength, glute activation, and core stability in a simple movement pattern that improves posture and functional mobility.",
+      muscles: ["Hip Flexors", "Glutes", "Core", "Adductors"],
       benefits: [
         { icon: "🦵", text: "Hip Strength" },
         { icon: "🍑", text: "Glute Activation" },
@@ -965,6 +1034,7 @@
       tagline: "Control, Knee Stability & Movement.",
       videoId: "xKX841sMnIk",
       desc: "Deceleration Squats train your body to absorb force safely — a critical skill for athletes and anyone who wants healthy knees and injury-resilient movement patterns.",
+      muscles: ["Quads", "Glutes", "Hamstrings", "Core", "Calves"],
       benefits: [
         { icon: "🦵", text: "Hip Strength" },
         { icon: "🧠", text: "Motor Control" },
@@ -983,6 +1053,7 @@
       tagline: "Build Hip Strength & Prevent Injury.",
       videoId: "Vtactv6CVbA",
       desc: "Banded Side-to-Side Walks activate the glute medius and hip abductors — the muscles responsible for knee alignment, hip stability, and injury prevention.",
+      muscles: ["Glute Medius", "Glute Minimus", "Hip Abductors", "TFL"],
       benefits: [
         { icon: "🍑", text: "Glute Activation" },
         { icon: "🦵", text: "Hip Strength" },
@@ -1001,6 +1072,7 @@
       tagline: "Proper Form, Upper Body Strength.",
       videoId: "cOHvJvKhbIo",
       desc: "The Push-Up is a complete upper-body and core exercise. Coach Omar breaks down proper form so you build chest, shoulder, and tricep strength safely and efficiently.",
+      muscles: ["Pectorals", "Triceps", "Anterior Deltoid", "Core"],
       benefits: [
         { icon: "💪", text: "Core Strength" },
         { icon: "🔒", text: "Core Stability" },
@@ -1019,6 +1091,7 @@
       tagline: "Hold the Line. Build the Core.",
       videoId: "n141yZWEmn0",
       desc: "The Plank is the foundation of core training. Coach Omar breaks down proper technique so you build deep core strength, improve posture, and protect your lower back.",
+      muscles: ["Transverse Abdominis", "Rectus Abdominis", "Shoulders", "Glutes"],
       benefits: [
         { icon: "💪", text: "Core Strength" },
         { icon: "🔒", text: "Core Stability" },
@@ -1037,6 +1110,7 @@
       tagline: "Lateral Strength. Anti-Lateral Flexion.",
       videoId: "dWntXGJ4cFg",
       desc: "The Side Plank targets the obliques, glute medius, and hip stabilizers — muscles most people neglect. Coach Omar shows you how to do it right for real lateral core strength.",
+      muscles: ["Obliques", "Glute Medius", "Transverse Abdominis", "Shoulder Stabilizers"],
       benefits: [
         { icon: "💪", text: "Core Stability" },
         { icon: "⚡", text: "Lateral Strength" },
@@ -1053,7 +1127,7 @@
   ];
 
   // ================================================================
-  // AUTO-ROTATION LOGIC — runs silently, no action needed
+  // AUTO-ROTATION LOGIC
   // ================================================================
   function getWeekNumber(date) {
     const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -1071,30 +1145,42 @@
   const current = exercises[currentIndex];
   const next = exercises[nextIndex];
 
-  // Populate week badge
+  // Week badge
   document.getElementById('weekBadge').textContent = `Week ${weekNum} · ${today.getFullYear()}`;
 
-  // Populate exercise name & tagline
+  // Exercise name & tagline
   document.getElementById('exerciseName').textContent = current.name;
   document.getElementById('exerciseTagline').textContent = current.tagline;
   document.getElementById('exerciseDesc').textContent = current.desc;
   document.getElementById('nextExercise').textContent = next.name;
 
-  // Embed YouTube video
+  // Video label
+  const exerciseTitle = current.name.charAt(0) + current.name.slice(1).toLowerCase();
+  document.getElementById('videoLabel').textContent = `▶ Watch the ${exerciseTitle} Tutorial`;
+
+  // YouTube embed
   document.getElementById('ytEmbed').src =
     `https://www.youtube.com/embed/${current.videoId}?rel=0&modestbranding=1&enablejsapi=1`;
 
-  // Generate QR code for current video
+  // QR code
   const videoUrl = `https://www.youtube.com/watch?v=${current.videoId}`;
-  const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(videoUrl)}&color=0a1628&bgcolor=ffffff&margin=4`;
-  document.getElementById('qrCode').src = qrApiUrl;
+  document.getElementById('qrCode').src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(videoUrl)}&color=0a1628&bgcolor=ffffff&margin=4`;
 
-  // Dynamic Watch Tutorial button
-  const exerciseTitle = current.name.charAt(0) + current.name.slice(1).toLowerCase();
+  // Watch button
   document.getElementById('ytWatchLink').href = videoUrl;
   document.getElementById('ytWatchLabel').textContent = `Watch the ${exerciseTitle} Tutorial`;
 
-  // Populate benefits — clickable
+  // Muscles
+  const musclesList = document.getElementById('musclesList');
+  current.muscles.forEach(m => {
+    const tag = document.createElement('span');
+    tag.className = 'muscle-tag';
+    tag.textContent = m;
+    musclesList.appendChild(tag);
+  });
+
+  // Benefits
   const benefitsGrid = document.getElementById('benefitsGrid');
   current.benefits.forEach(b => {
     const div = document.createElement('div');
@@ -1104,18 +1190,20 @@
     benefitsGrid.appendChild(div);
   });
 
+  // Tips
+  const tipsList = document.getElementById('tipsList');
+  current.tips.forEach(tip => {
+    tipsList.innerHTML += `<li><div class="tip-dot"></div><span>${tip}</span></li>`;
+  });
+
   // ================================================================
-  // BENEFITS INDEX MODAL
+  // BENEFITS MODAL
   // ================================================================
   function openBenefitModal(benefitText) {
-    const matched = exercises.filter(ex =>
-      ex.benefits.some(b => b.text === benefitText)
-    );
-
+    const matched = exercises.filter(ex => ex.benefits.some(b => b.text === benefitText));
     document.getElementById('modalTitle').textContent = benefitText;
     document.getElementById('modalSubtitle').textContent =
       `${matched.length} exercise${matched.length !== 1 ? 's' : ''} in your library with this benefit`;
-
     const list = document.getElementById('modalList');
     list.innerHTML = '';
     matched.forEach(ex => {
@@ -1131,7 +1219,6 @@
         <span class="modal-yt-btn">▶ Watch</span>`;
       list.appendChild(item);
     });
-
     document.getElementById('modalOverlay').classList.add('active');
   }
 
@@ -1139,38 +1226,26 @@
     document.getElementById('modalOverlay').classList.remove('active');
   });
   document.getElementById('modalOverlay').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('modalOverlay')) {
+    if (e.target === document.getElementById('modalOverlay'))
       document.getElementById('modalOverlay').classList.remove('active');
-    }
-  });
-  current.tips.forEach(tip => {
-    tipsList.innerHTML += `
-      <li><div class="tip-dot"></div><span>${tip}</span></li>`;
   });
 
-  // === TAP TO SKIP (double-tap left = -10s, double-tap right = +10s) ===
-  let tapTimer = null;
-  let tapCount = 0;
+  // === TAP TO SKIP ===
+  let tapTimer = null, tapCount = 0;
   const feedback = document.getElementById('tapFeedback');
-
   function showFeedback(msg) {
     feedback.textContent = msg;
     feedback.classList.add('show');
     clearTimeout(feedback._timer);
     feedback._timer = setTimeout(() => feedback.classList.remove('show'), 800);
   }
-
   function handleTap(direction) {
     tapCount++;
     clearTimeout(tapTimer);
     tapTimer = setTimeout(() => {
       if (tapCount >= 2) {
-        const iframe = document.getElementById('ytEmbed');
-        const src = iframe.src;
-        // Use YouTube iframe API postMessage to seek
-        iframe.contentWindow.postMessage(JSON.stringify({
-          event: 'command',
-          func: direction === 'back' ? 'seekBy' : 'seekBy',
+        document.getElementById('ytEmbed').contentWindow.postMessage(JSON.stringify({
+          event: 'command', func: 'seekBy',
           args: [direction === 'back' ? -10 : 10]
         }), '*');
         showFeedback(direction === 'back' ? '⏪ -10s' : '+10s ⏩');
@@ -1178,7 +1253,6 @@
       tapCount = 0;
     }, 300);
   }
-
   document.getElementById('tapLeft').addEventListener('click', () => handleTap('back'));
   document.getElementById('tapRight').addEventListener('click', () => handleTap('forward'));
 </script>
