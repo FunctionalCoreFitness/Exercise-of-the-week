@@ -744,6 +744,7 @@
 </div>
 
 <script>
+
   const exercises = [
     {
       name: "BIRD DOG",
@@ -1126,6 +1127,201 @@
       ],
     },
   ];
+
+  // ================================================================
+  // AUTO-ROTATION LOGIC
+  // ================================================================
+  function getWeekNumber(date) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  }
+
+  const today = new Date();
+  const weekNum = getWeekNumber(today);
+  const currentIndex = (weekNum - 1) % exercises.length;
+  const nextIndex = weekNum % exercises.length;
+
+  const current = exercises[currentIndex];
+  const next = exercises[nextIndex];
+
+  // Week badge
+  document.getElementById('weekBadge').textContent = `Week ${weekNum} · ${today.getFullYear()}`;
+
+  // Exercise name & tagline
+  document.getElementById('exerciseName').textContent = current.name;
+  document.getElementById('exerciseTagline').textContent = current.tagline;
+  document.getElementById('exerciseDesc').textContent = current.desc;
+  document.getElementById('nextExercise').textContent = next.name;
+
+  // Video label
+  const exerciseTitle = current.name.charAt(0) + current.name.slice(1).toLowerCase();
+  document.getElementById('videoLabel').textContent = `▶ Watch the ${exerciseTitle} Tutorial`;
+
+  // YouTube embed
+  document.getElementById('ytEmbed').src =
+    `https://www.youtube.com/embed/${current.videoId}?rel=0&modestbranding=1&enablejsapi=1`;
+
+  // QR code
+  const videoUrl = `https://www.youtube.com/watch?v=${current.videoId}`;
+  document.getElementById('qrCode').src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(videoUrl)}&color=0a1628&bgcolor=ffffff&margin=4`;
+
+  // Watch button
+  document.getElementById('ytWatchLink').href = videoUrl;
+  document.getElementById('ytWatchLabel').textContent = `Watch the ${exerciseTitle} Tutorial`;
+
+  // Muscles + Anatomy SVG
+  const musclesList = document.getElementById('musclesList');
+  current.muscles.forEach(m => {
+    const tag = document.createElement('span');
+    tag.className = 'muscle-tag';
+    tag.textContent = m;
+    musclesList.appendChild(tag);
+  });
+  document.getElementById('anatomySvg').innerHTML = buildAnatomySVG(current.muscles);
+
+  // Benefits
+  const benefitsGrid = document.getElementById('benefitsGrid');
+  current.benefits.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'benefit';
+    div.innerHTML = `<div class="benefit-icon">${b.icon}</div><div class="benefit-text">${b.text}</div>`;
+    div.addEventListener('click', () => openBenefitModal(b.text));
+    benefitsGrid.appendChild(div);
+  });
+
+  // Tips
+  const tipsList = document.getElementById('tipsList');
+  current.tips.forEach(tip => {
+    tipsList.innerHTML += `<li><div class="tip-dot"></div><span>${tip}</span></li>`;
+  });
+
+  // ================================================================
+  // BENEFITS MODAL
+  // ================================================================
+  function openBenefitModal(benefitText) {
+    const matched = exercises.filter(ex => ex.benefits.some(b => b.text === benefitText));
+    document.getElementById('modalTitle').textContent = benefitText;
+    document.getElementById('modalSubtitle').textContent =
+      `${matched.length} exercise${matched.length !== 1 ? 's' : ''} in your library with this benefit`;
+    const list = document.getElementById('modalList');
+    list.innerHTML = '';
+    matched.forEach(ex => {
+      const item = document.createElement('a');
+      item.className = 'modal-exercise-item';
+      item.href = `https://www.youtube.com/watch?v=${ex.videoId}`;
+      item.target = '_blank';
+      item.innerHTML = `
+        <div>
+          <div class="modal-exercise-name">${ex.name}</div>
+          <div class="modal-exercise-tagline">${ex.tagline}</div>
+        </div>
+        <span class="modal-yt-btn">▶ Watch</span>`;
+      list.appendChild(item);
+    });
+    document.getElementById('modalOverlay').classList.add('active');
+  }
+
+  document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('modalOverlay').classList.remove('active');
+  });
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modalOverlay'))
+      document.getElementById('modalOverlay').classList.remove('active');
+  });
+
+  // === SWIPE TO NAVIGATE EXERCISES ===
+  let swipeStartX = 0;
+  let swipeStartY = 0;
+  const videoWrap = document.querySelector('.video-wrap');
+  const swipeFeedback = document.getElementById('swipeFeedback');
+
+  function showSwipeFeedback(msg) {
+    swipeFeedback.textContent = msg;
+    swipeFeedback.classList.add('show');
+    clearTimeout(swipeFeedback._timer);
+    swipeFeedback._timer = setTimeout(() => swipeFeedback.classList.remove('show'), 900);
+  }
+
+  function loadExercise(index) {
+    const ex = exercises[((index % exercises.length) + exercises.length) % exercises.length];
+
+    document.getElementById('exerciseName').textContent = ex.name;
+    document.getElementById('exerciseTagline').textContent = ex.tagline;
+    document.getElementById('exerciseDesc').textContent = ex.desc;
+
+    const nextEx = exercises[((index + 1) % exercises.length + exercises.length) % exercises.length];
+    document.getElementById('nextExercise').textContent = nextEx.name;
+
+    const title = ex.name.charAt(0) + ex.name.slice(1).toLowerCase();
+    document.getElementById('videoLabel').textContent = `▶ Watch the ${title} Tutorial`;
+
+    document.getElementById('ytEmbed').src =
+      `https://www.youtube.com/embed/${ex.videoId}?rel=0&modestbranding=1&enablejsapi=1`;
+
+    const url = `https://www.youtube.com/watch?v=${ex.videoId}`;
+    document.getElementById('qrCode').src =
+      `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}&color=0a1628&bgcolor=ffffff&margin=4`;
+    document.getElementById('ytWatchLink').href = url;
+    document.getElementById('ytWatchLabel').textContent = `Watch the ${title} Tutorial`;
+
+    // Muscles + Anatomy SVG
+    const musclesList = document.getElementById('musclesList');
+    musclesList.innerHTML = '';
+    ex.muscles.forEach(m => {
+      const tag = document.createElement('span');
+      tag.className = 'muscle-tag';
+      tag.textContent = m;
+      musclesList.appendChild(tag);
+    });
+    document.getElementById('anatomySvg').innerHTML = buildAnatomySVG(ex.muscles);
+
+    // Benefits
+    const benefitsGrid = document.getElementById('benefitsGrid');
+    benefitsGrid.innerHTML = '';
+    ex.benefits.forEach(b => {
+      const div = document.createElement('div');
+      div.className = 'benefit';
+      div.innerHTML = `<div class="benefit-icon">${b.icon}</div><div class="benefit-text">${b.text}</div>`;
+      div.addEventListener('click', () => openBenefitModal(b.text));
+      benefitsGrid.appendChild(div);
+    });
+
+    // Tips
+    const tipsList = document.getElementById('tipsList');
+    tipsList.innerHTML = '';
+    ex.tips.forEach(tip => {
+      tipsList.innerHTML += `<li><div class="tip-dot"></div><span>${tip}</span></li>`;
+    });
+  }
+
+  let currentExerciseIndex = currentIndex;
+
+  videoWrap.addEventListener('touchstart', (e) => {
+    swipeStartX = e.touches[0].clientX;
+    swipeStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  videoWrap.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - swipeStartX;
+    const dy = e.changedTouches[0].clientY - swipeStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+      if (dx < 0) {
+        currentExerciseIndex++;
+        const ex = exercises[currentExerciseIndex % exercises.length];
+        showSwipeFeedback(`→ ${ex.name}`);
+        loadExercise(currentExerciseIndex);
+      } else {
+        currentExerciseIndex--;
+        const ex = exercises[((currentExerciseIndex % exercises.length) + exercises.length) % exercises.length];
+        showSwipeFeedback(`← ${ex.name}`);
+        loadExercise(currentExerciseIndex);
+      }
+    }
+  }, { passive: true });
 
   // ================================================================
   // AUTO-ROTATION LOGIC
