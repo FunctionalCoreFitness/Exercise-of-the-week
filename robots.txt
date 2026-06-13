@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://functionalcorefitness.github.io/Exercise-of-the-week/sitemap.xml
