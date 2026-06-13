@@ -54,9 +54,17 @@
     .muscles-list { display: flex; flex-wrap: wrap; gap: 6px; }
     .muscle-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--silver); background: rgba(45,125,210,0.12); border: 1px solid rgba(45,125,210,0.25); border-radius: 100px; padding: 3px 10px; }
     .anatomy-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-    .muscle-img-card { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .muscle-img-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(45,125,210,0.3); background: rgba(255,255,255,0.04); }
+    .muscle-img-card { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: zoom-in; }
+    .muscle-img-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(45,125,210,0.3); background: rgba(255,255,255,0.04); transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s; }
+    .muscle-img-card:hover img { transform: scale(1.08); border-color: var(--gold); box-shadow: 0 4px 16px rgba(245,166,35,0.3); }
     .muscle-img-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--silver); text-align: center; max-width: 64px; line-height: 1.2; }
+    /* Muscle lightbox */
+    .muscle-lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(6px); cursor: zoom-out; }
+    .muscle-lightbox.active { display: flex; }
+    .muscle-lightbox-inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; animation: modalIn 0.2s ease both; }
+    .muscle-lightbox-inner img { max-width: min(420px, 90vw); max-height: 70vh; object-fit: contain; border-radius: 16px; border: 1px solid rgba(245,166,35,0.4); box-shadow: 0 24px 60px rgba(0,0,0,0.6); }
+    .muscle-lightbox-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.08em; color: var(--gold); text-shadow: 0 0 20px rgba(245,166,35,0.4); }
+    .muscle-lightbox-close { position: absolute; top: -14px; right: -14px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .benefit { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; border-radius: 10px; padding: 4px; transition: background 0.15s; }
     .benefit:hover { background: rgba(45,125,210,0.15); }
@@ -197,6 +205,14 @@
   </footer>
 </div>
 
+<div class="muscle-lightbox" id="muscleLightbox">
+  <div class="muscle-lightbox-inner">
+    <button class="muscle-lightbox-close" id="muscleLightboxClose">✕</button>
+    <img id="muscleLightboxImg" src="" alt="">
+    <div class="muscle-lightbox-label" id="muscleLightboxLabel"></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <button class="modal-close" id="modalClose">✕</button>
@@ -244,12 +260,24 @@ function buildAnatomy(muscles) {
   return muscles.map(function(m) {
     var file = muscleImageMap[m];
     if (!file) return '';
-    return '<div class="muscle-img-card">'
+    return '<div class="muscle-img-card" onclick="openMuscleLightbox(\'muscle-images/' + file + '\',\'' + m + '\')">'
       + '<img src="muscle-images/' + file + '" alt="' + m + '" loading="lazy">'
       + '<div class="muscle-img-label">' + m + '</div>'
       + '</div>';
   }).join('');
 }
+
+function openMuscleLightbox(src, label) {
+  document.getElementById('muscleLightboxImg').src = src;
+  document.getElementById('muscleLightboxImg').alt = label;
+  document.getElementById('muscleLightboxLabel').textContent = label;
+  document.getElementById('muscleLightbox').classList.add('active');
+}
+function closeMuscleLightbox() {
+  document.getElementById('muscleLightbox').classList.remove('active');
+}
+document.getElementById('muscleLightboxClose').addEventListener('click', function(e) { e.stopPropagation(); closeMuscleLightbox(); });
+document.getElementById('muscleLightbox').addEventListener('click', closeMuscleLightbox);
 
 // ============================================================
 // EXERCISE DATA
