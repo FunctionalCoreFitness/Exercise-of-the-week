@@ -349,7 +349,7 @@ function getWeekNumber(date) {
 
 var today = new Date();
 var weekNum = getWeekNumber(today);
-var currentIndex = (weekNum - 1) % exercises.length;
+var currentIndex = (weekNum - 1 + 5) % exercises.length;
 
 document.getElementById('weekBadge').textContent = 'Week ' + weekNum + ' \u00B7 ' + today.getFullYear();
 
