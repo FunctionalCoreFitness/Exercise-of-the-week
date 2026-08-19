@@ -365,7 +365,10 @@ function getWeekNumber(date) {
 
 var today = new Date();
 var weekNum = getWeekNumber(today);
-var currentIndex = (weekNum - 1) % exercises.length;
+// +3 keeps this week's exercise at BANDED SIDE-TO-SIDE WALKS (the one
+// live before the rotation array lost an entry), so the schedule
+// continues from where visitors last saw it instead of jumping back.
+var currentIndex = (weekNum - 1 + 3) % exercises.length;
 
 document.getElementById('weekBadge').textContent = 'Week ' + weekNum + ' \u00B7 ' + today.getFullYear();
 
