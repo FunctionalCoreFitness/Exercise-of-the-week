@@ -2,8 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Exercise of the Week — Functional Core Fitness</title>
+  <meta name="description" content="A new functional movement tutorial every week from Coach Omar Lima at Functional Core Fitness in Mountain View and Los Altos, CA." />
+  <meta name="theme-color" content="#0a1628" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Functional Core Fitness" />
+  <meta property="og:title" content="Exercise of the Week — Functional Core Fitness" />
+  <meta property="og:description" content="A new functional movement tutorial every week from Coach Omar Lima." />
+  <meta property="og:url" content="https://functionalcorefitness.github.io/Exercise-of-the-week/exercise-of-the-week.html" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1628'/%3E%3Ctext x='32' y='44' font-family='Arial Narrow,Arial' font-weight='700' font-size='30' text-anchor='middle' fill='%23f5a623'%3EFCF%3C/text%3E%3C/svg%3E" />
+
+  <!-- Google Analytics 4 (FCF Exercise of the Week) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-86LMLPZE5K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-86LMLPZE5K');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -16,35 +36,59 @@
       --accent: #2d7dd2;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--navy); color: var(--white); font-family: 'Barlow', sans-serif; min-height: 100vh; overflow-x: hidden; overflow-y: auto; }
+    body { background: var(--navy); color: var(--white); font-family: 'Barlow', sans-serif; min-height: 100vh; overflow-x: hidden; overflow-y: auto; -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; color: inherit; }
     .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(45,125,210,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(45,125,210,0.06) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
     .bg-glow { position: fixed; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(45,125,210,0.15) 0%, transparent 70%); top: -200px; right: -200px; pointer-events: none; z-index: 0; animation: pulse 6s ease-in-out infinite; }
     @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
     .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 24px 60px; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0 16px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 40px; flex-wrap: wrap; gap: 12px; }
-    .brand img { height: 52px; width: auto; filter: brightness(1.1); opacity: 0.95; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0 16px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+    .brand img { height: 52px; width: auto; filter: brightness(1.1); opacity: 0.95; display: block; }
+    .header-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
     .week-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 100px; padding: 6px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; color: var(--silver); text-transform: uppercase; }
-    .eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; animation: fadeUp 0.5s ease both; text-shadow: 0 0 30px rgba(245,166,35,0.5); text-align: center; }
-    .exercise-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(6rem, 17vw, 11rem); line-height: 0.9; letter-spacing: 0.03em; background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; animation: fadeUp 0.5s 0.1s ease both; text-align: center; }
-    .tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--silver); margin-bottom: 20px; animation: fadeUp 0.5s 0.2s ease both; text-align: center; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .gold-line { height: 3px; background: linear-gradient(90deg, var(--gold), var(--accent), transparent); border-radius: 2px; margin-bottom: 32px; animation: expand 0.8s 0.1s ease both; }
-    @keyframes expand { from { transform: scaleX(0); transform-origin: left; } to { transform: scaleX(1); transform-origin: left; } }
-    .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 28px; margin-bottom: 28px; animation: fadeUp 0.5s 0.3s ease both; }
+    .coach-line { font-size:0.7rem; color:var(--silver); letter-spacing:0.08em; }
+
+    /* Hero — the whole block is swipeable */
+    .hero { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .eyebrow { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; text-shadow: 0 0 30px rgba(245,166,35,0.5); text-align: center; transition: color .2s; }
+    .eyebrow.browsing { color: var(--silver); text-shadow: none; }
+    .exercise-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.2rem, 15vw, 10rem); line-height: 0.9; letter-spacing: 0.03em; background: linear-gradient(135deg, var(--white) 0%, var(--gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; text-align: center; overflow-wrap: normal; word-break: normal; hyphens: none; }
+    .tagline { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--silver); margin-bottom: 18px; text-align: center; }
+    @media (max-width: 600px) { .eyebrow { font-size: 1.7rem; letter-spacing: 0.16em; } .tagline { font-size: 0.95rem; } }
+    .anim { animation: fadeUp 0.45s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Navigation bar */
+    .nav-bar { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .nav-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 100px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); color: var(--silver); font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
+    .nav-btn:hover { background: rgba(45,125,210,0.2); border-color: rgba(45,125,210,0.5); color: var(--white); }
+    .nav-btn:focus-visible, .benefit:focus-visible, .muscle-tag:focus-visible, .yt-button:focus-visible, .lib-item:focus-visible, .modal-close:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .nav-btn.arrow { width: 44px; padding: 0; font-size: 1.2rem; }
+    .nav-btn.today { background: var(--gold); border-color: var(--gold); color: var(--navy); display: none; }
+    .nav-btn.today.show { display: inline-flex; }
+    .nav-count { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.45); text-transform: uppercase; min-width: 62px; text-align: center; }
+
+    .gold-line { height: 3px; background: linear-gradient(90deg, var(--gold), var(--accent), transparent); border-radius: 2px; margin-bottom: 28px; }
+    .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 28px; margin-bottom: 28px; }
     @media (max-width: 720px) { .main-grid { grid-template-columns: 1fr; } }
+    .video-col { display: flex; flex-direction: column; gap: 10px; }
     .video-wrap { position: relative; border-radius: 16px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,166,35,0.15); }
     .video-wrap::before { content: ''; display: block; padding-top: 56.25%; }
     .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-    .video-label { position: absolute; top: 14px; left: 14px; background: var(--gold); color: var(--navy); font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; z-index: 5; }
-    .swipe-hint { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.5); font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(0,0,0,0.4); padding: 4px 14px; border-radius: 20px; pointer-events: none; z-index: 5; }
-    .swipe-feedback { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.1em; background: rgba(0,0,0,0.65); padding: 10px 24px; border-radius: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 20; white-space: nowrap; }
+    .video-hint { text-align: center; color: rgba(255,255,255,0.4); font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .swipe-feedback { position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%); color: white; font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.1em; background: rgba(0,0,0,0.75); padding: 10px 24px; border-radius: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 50; white-space: nowrap; }
     .swipe-feedback.show { opacity: 1; }
+
     .sidebar { display: flex; flex-direction: column; gap: 16px; }
     .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 22px; }
-    .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+    .card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .card-title small { font-size: 0.68rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.35); font-weight: 600; }
     .description { font-size: 0.95rem; line-height: 1.65; color: var(--silver); }
     .muscles-list { display: flex; flex-wrap: wrap; gap: 6px; }
     .muscle-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--silver); background: rgba(45,125,210,0.12); border: 1px solid rgba(45,125,210,0.25); border-radius: 100px; padding: 3px 10px; }
+    button.muscle-tag { cursor: pointer; transition: background .15s, color .15s; }
+    button.muscle-tag::after { content: ' ›'; color: var(--gold); }
+    button.muscle-tag:hover { background: rgba(245,166,35,0.18); border-color: rgba(245,166,35,0.45); color: var(--white); }
     .anatomy-wrap { display: flex; gap: 8px; margin-bottom: 10px; }
     .anatomy-body { width: 65px; }
     .anatomy-body svg { width: 100%; height: auto; }
@@ -52,7 +96,7 @@
     .muscle-region.active { fill: rgba(245,166,35,0.65); stroke: #f5a623; stroke-width: 1.5; }
     .body-outline { fill: rgba(255,255,255,0.06); stroke: rgba(255,255,255,0.2); stroke-width: 1; }
     .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .benefit { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; border-radius: 10px; padding: 4px; transition: background 0.15s; }
+    .benefit { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; border-radius: 10px; padding: 4px; transition: background 0.15s; background: none; border: none; text-align: left; }
     .benefit:hover { background: rgba(45,125,210,0.15); }
     .benefit-icon { width: 36px; height: 36px; background: rgba(45,125,210,0.15); border: 1px solid rgba(45,125,210,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
     .benefit-text { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--white); line-height: 1.3; padding-top: 2px; }
@@ -60,39 +104,69 @@
     .next-week-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.05em; color: rgba(255,255,255,0.3); }
     .next-week-tag { display: inline-block; margin-top: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.25); border-radius: 100px; padding: 3px 12px; }
     .channel-card { background: linear-gradient(135deg, rgba(26,58,107,0.8) 0%, rgba(10,22,40,0.9) 100%); border: 1px solid rgba(45,125,210,0.3); }
-    .yt-button { display: inline-flex; align-items: center; gap: 10px; background: #ff0000; color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 22px; border-radius: 10px; margin-top: 14px; transition: transform 0.15s, box-shadow 0.15s; width: 100%; justify-content: center; }
+    .yt-button { display: inline-flex; align-items: center; gap: 10px; background: #ff0000; color: white; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 22px; border-radius: 10px; margin-top: 14px; transition: transform 0.15s, box-shadow 0.15s; width: 100%; justify-content: center; text-align: center; }
     .yt-button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,0,0,0.35); }
+    .yt-button.ghost { margin-top:6px; background:rgba(45,125,210,0.2); border:1px solid rgba(45,125,210,0.4); color:var(--silver); }
+    .yt-button.ghost:hover { box-shadow: 0 8px 24px rgba(45,125,210,0.3); }
     .channel-blurb { font-size: 0.88rem; color: var(--silver); line-height: 1.5; }
-    .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; animation: fadeUp 0.5s 0.4s ease both; }
+    .qr-row { display:flex; align-items:center; gap:14px; }
+    .qr-box { background:white; border-radius:10px; padding:7px; flex-shrink:0; }
+    #qrCode { width:80px; height:80px; display:block; border-radius:4px; }
+    .join-card { background:linear-gradient(135deg,rgba(245,166,35,0.15) 0%,rgba(10,22,40,0.9) 100%); border:1px solid rgba(245,166,35,0.3); }
+    .join-link { display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; color:var(--gold); font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.1em; }
+    .join-sub { text-align:center; font-size:0.68rem; color:var(--silver); margin-top:4px; }
+    .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 600px) { .bottom-row { grid-template-columns: 1fr; } }
     .tips-list { list-style: none; }
     .tips-list li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: var(--silver); line-height: 1.4; }
     .tips-list li:last-child { border-bottom: none; }
     .tip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 6px; }
+    .share-row { display:flex; gap:8px; margin-top:6px; }
     footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.3); }
-    .footer-note { font-size: 0.78rem; color: rgba(255,255,255,0.2); }
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+    .footer-note { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+
+    /* Modals */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
-    .modal { background: #0f1e35; border: 1px solid rgba(45,125,210,0.3); border-radius: 20px; padding: 28px; max-width: 520px; width: 100%; max-height: 80vh; overflow-y: auto; position: relative; animation: modalIn 0.25s ease both; }
+    .modal { background: #0f1e35; border: 1px solid rgba(45,125,210,0.3); border-radius: 20px; padding: 28px; max-width: 560px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; animation: modalIn 0.25s ease both; }
+    .modal.wide { max-width: 760px; }
     @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.08); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    .modal-benefit-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 4px; }
+    .modal-close { position: absolute; top: 14px; right: 14px; background: rgba(255,255,255,0.08); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 4px; padding-right: 44px; }
     .modal-subtitle { font-size: 0.8rem; color: var(--silver); margin-bottom: 20px; }
-    .modal-exercise-list { display: flex; flex-direction: column; gap: 10px; }
-    .modal-exercise-item { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px 16px; text-decoration: none; }
-    .modal-exercise-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); }
-    .modal-exercise-tagline { font-size: 0.75rem; color: var(--silver); margin-top: 2px; }
-    .modal-yt-btn { background: #ff0000; color: white; font-size: 0.7rem; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 12px; border-radius: 8px; flex-shrink: 0; margin-left: 12px; }
+    .modal-list { display: flex; flex-direction: column; gap: 10px; }
+    .lib-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 14px; text-decoration: none; text-align: left; cursor: pointer; transition: background .15s, border-color .15s; }
+    .lib-item:hover { background: rgba(45,125,210,0.14); border-color: rgba(45,125,210,0.4); }
+    .lib-item.current { border-color: rgba(245,166,35,0.6); background: rgba(245,166,35,0.08); }
+    .lib-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: rgba(255,255,255,0.3); width: 28px; flex-shrink: 0; }
+    .lib-main { flex: 1; min-width: 0; }
+    .lib-name { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); }
+    .lib-tagline { font-size: 0.75rem; color: var(--silver); margin-top: 2px; }
+    .lib-badge { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 10px; border-radius: 8px; flex-shrink: 0; background: rgba(45,125,210,0.25); color: var(--silver); }
+    .lib-badge.now { background: var(--gold); color: var(--navy); }
+    .lib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    @media (max-width: 600px) { .lib-grid { grid-template-columns: 1fr; } }
+    .lib-search { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: var(--white); font-family: 'Barlow', sans-serif; font-size: 1rem; margin-bottom: 14px; }
+    .lib-search::placeholder { color: rgba(255,255,255,0.35); }
+    .anatomy-img-box { background: #fff; border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+    .anatomy-img-box img { width: 100%; height: auto; display: block; }
+    .muscle-used-in { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+
+    /* iPad landscape kiosk mode — everything on one screen */
     @media (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) {
       .page { padding: 0 16px 24px; max-width: 100%; }
       header { padding: 6px 0 4px; margin-bottom: 4px; }
       .brand img { height: 32px; }
       .eyebrow { font-size: 1.6rem; margin-bottom: 1px; }
-      .exercise-name { font-size: clamp(3.5rem, 10vw, 7rem); margin-bottom: 1px; }
+      .exercise-name { font-size: clamp(3.2rem, 9vw, 6.5rem); margin-bottom: 1px; }
       .tagline { font-size: 0.78rem; margin-bottom: 6px; }
+      .nav-bar { margin-bottom: 6px; gap: 6px; }
+      .nav-btn { min-height: 34px; font-size: 0.72rem; padding: 0 12px; }
+      .nav-btn.arrow { width: 34px; }
       .gold-line { margin-bottom: 8px; height: 2px; }
       .main-grid { grid-template-columns: 1fr 300px; gap: 12px; margin-bottom: 8px; }
+      .video-hint { font-size: 0.62rem; }
       .sidebar { gap: 8px; }
       .card { padding: 8px 12px; border-radius: 10px; }
       .card-title { margin-bottom: 5px; font-size: 0.65rem; }
@@ -105,10 +179,13 @@
       .next-week-name { font-size: 1.2rem; }
       .channel-blurb { font-size: 0.7rem; }
       .yt-button { padding: 6px 12px; font-size: 0.75rem; margin-top: 6px; border-radius: 8px; }
-      #qrCode { width: 60px !important; height: 60px !important; }
+      #qrCode { width: 60px; height: 60px; }
       .bottom-row { grid-template-columns: 1fr 1fr; gap: 8px; }
       .tips-list li { font-size: 0.72rem; padding: 4px 0; }
       footer { margin-top: 6px; padding-top: 6px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .anim, .modal, .bg-glow { animation: none !important; }
     }
   </style>
 </head>
@@ -118,21 +195,33 @@
 <div class="page">
   <header>
     <div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgNDgwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJ0ZXh0R3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNEE3RUM3Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJkN2RkMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDwhLS0gRlVOQ1RJT05BTCBDT1JFIC0tPgogIDx0ZXh0IHg9IjEwIiB5PSI0MiIKICAgIGZvbnQtZmFtaWx5PSInQmFybG93IENvbmRlbnNlZCcsICdBcmlhbCBOYXJyb3cnLCBBcmlhbCwgc2Fucy1zZXJpZiIKICAgIGZvbnQtd2VpZ2h0PSI3MDAiCiAgICBmb250LXNpemU9IjM0IgogICAgbGV0dGVyLXNwYWNpbmc9IjMiCiAgICBmaWxsPSJ1cmwoI3RleHRHcmFkKSI+RlVOQ1RJT05BTCBDT1JFPC90ZXh0PgoKICA8IS0tIEZJVE5FU1MgLS0+CiAgPHRleHQgeD0iMTIiIHk9IjY0IgogICAgZm9udC1mYW1pbHk9IidCYXJsb3cgQ29uZGVuc2VkJywgJ0FyaWFsIE5hcnJvdycsIEFyaWFsLCBzYW5zLXNlcmlmIgogICAgZm9udC13ZWlnaHQ9IjYwMCIKICAgIGZvbnQtc2l6ZT0iMTgiCiAgICBsZXR0ZXItc3BhY2luZz0iMTIiCiAgICBmaWxsPSIjOUFBQUJCIj5GSVRORVNTPC90ZXh0PgoKICA8IS0tIEFjY2VudCBsaW5lIHVuZGVyIEZJVE5FU1MgLS0+CiAgPGxpbmUgeDE9IjEwIiB5MT0iNzAiIHgyPSIzMTAiIHkyPSI3MCIgc3Ryb2tlPSIjNEE3RUM3IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+Cg==" alt="Functional Core Fitness"></div>
-    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-      <div class="week-badge" id="weekBadge">Week — of 2026</div>
-      <div style="font-size:0.7rem; color:var(--silver); letter-spacing:0.08em; font-family:'Barlow',sans-serif;">with Coach Omar Lima</div>
+    <div class="header-right">
+      <div class="week-badge" id="weekBadge">Week —</div>
+      <div class="coach-line">with Coach Omar Lima</div>
     </div>
   </header>
-  <div class="eyebrow">⚡ Exercise of the Week</div>
-  <div class="exercise-name" id="exerciseName">PLANK</div>
-  <div class="tagline" id="exerciseTagline">Strong Core. Stronger You.</div>
+
+  <div class="hero" id="hero">
+    <div class="eyebrow" id="eyebrow">⚡ Exercise of the Week</div>
+    <h1 class="exercise-name" id="exerciseName">PLANK</h1>
+    <div class="tagline" id="exerciseTagline">Strong Core. Stronger You.</div>
+  </div>
+
+  <nav class="nav-bar" aria-label="Browse exercises">
+    <button class="nav-btn arrow" id="prevBtn" aria-label="Previous exercise">‹</button>
+    <span class="nav-count" id="navCount">1 / 30</span>
+    <button class="nav-btn arrow" id="nextBtn" aria-label="Next exercise">›</button>
+    <button class="nav-btn today" id="todayBtn">⚡ This Week</button>
+    <button class="nav-btn" id="libraryBtn">☰ All Exercises</button>
+  </nav>
+
   <div class="gold-line"></div>
   <div class="main-grid">
-    <div class="video-wrap">
-      <div class="video-label" id="videoLabel">▶ Watch Tutorial</div>
-      <iframe id="ytEmbed" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      <div class="swipe-hint">← swipe to browse exercises →</div>
-      <div class="swipe-feedback" id="swipeFeedback"></div>
+    <div class="video-col">
+      <div class="video-wrap">
+        <iframe id="ytEmbed" title="Exercise tutorial video" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="video-hint">Swipe the title or use ‹ › to browse all exercises</div>
     </div>
     <div class="sidebar">
       <div class="card">
@@ -140,37 +229,37 @@
         <p class="description" id="exerciseDesc"></p>
       </div>
       <div class="card">
-        <div class="card-title">Muscles Worked</div>
+        <div class="card-title">Muscles Worked <small>tap a muscle</small></div>
         <div id="anatomyDiagram" class="anatomy-wrap"></div>
         <div class="muscles-list" id="musclesList"></div>
       </div>
       <div class="card">
-        <div class="card-title">Benefits</div>
+        <div class="card-title">Benefits <small>tap to explore</small></div>
         <div class="benefits-grid" id="benefitsGrid"></div>
       </div>
       <div class="card">
-        <div class="card-title">Coming Next Week</div>
-        <div class="next-week-label">Get ready for →</div>
+        <div class="card-title" id="nextTitle">Coming Next Week</div>
+        <div class="next-week-label" id="nextLabel">Get ready for →</div>
         <div class="next-week-name" id="nextExercise">DEAD BUG</div>
-        <span class="next-week-tag">Preview</span>
+        <span class="next-week-tag" id="nextTag">Preview</span>
       </div>
       <div class="card channel-card">
         <div class="card-title">Scan to Watch</div>
-        <div style="display:flex; align-items:center; gap:14px;">
-          <div style="background:white; border-radius:10px; padding:7px; flex-shrink:0;">
-            <img id="qrCode" src="" alt="QR Code" style="width:80px; height:80px; display:block; border-radius:4px;">
+        <div class="qr-row">
+          <div class="qr-box">
+            <img id="qrCode" src="" alt="QR code for this tutorial on YouTube">
           </div>
           <div>
             <p class="channel-blurb" style="margin-bottom:8px;">Scan to watch the full tutorial on YouTube.</p>
-            <a class="yt-button" id="ytWatchLink" href="#" target="_blank"><span>▶</span> <span id="ytWatchLabel">Watch Tutorial</span></a>
-            <a class="yt-button" href="https://www.youtube.com/playlist?list=PLUAb4em74JM1z9c5LUgac3hAJ4LNKqI6M" target="_blank" style="margin-top:6px; background:rgba(45,125,210,0.2); border:1px solid rgba(45,125,210,0.4); color:var(--silver);">📋 Movement Foundations</a>
-            <a class="yt-button" href="https://www.youtube.com/playlist?list=PLUAb4em74JM3pwWhEvsIH4uHnm-fjaIMv" target="_blank" style="margin-top:6px; background:rgba(45,125,210,0.2); border:1px solid rgba(45,125,210,0.4); color:var(--silver);">📋 Core Control & Stability</a>
+            <a class="yt-button" id="ytWatchLink" href="#" target="_blank" rel="noopener"><span>▶</span> <span id="ytWatchLabel">Watch Tutorial</span></a>
+            <a class="yt-button ghost" data-track="playlist_movement_foundations" href="https://www.youtube.com/playlist?list=PLUAb4em74JM1z9c5LUgac3hAJ4LNKqI6M" target="_blank" rel="noopener">📋 Movement Foundations</a>
+            <a class="yt-button ghost" data-track="playlist_core_control" href="https://www.youtube.com/playlist?list=PLUAb4em74JM3pwWhEvsIH4uHnm-fjaIMv" target="_blank" rel="noopener">📋 Core Control &amp; Stability</a>
           </div>
         </div>
       </div>
-      <div class="card" style="background:linear-gradient(135deg,rgba(245,166,35,0.15) 0%,rgba(10,22,40,0.9) 100%);border:1px solid rgba(245,166,35,0.3);">
-        <a href="join.html" style="display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;">✉️ Join the Community</a>
-        <p style="text-align:center;font-size:0.68rem;color:var(--silver);margin-top:4px;">Get weekly tips from Coach Omar</p>
+      <div class="card join-card">
+        <a class="join-link" href="join.html" data-track="join_click">✉️ Join the Community</a>
+        <p class="join-sub">Get weekly tips from Coach Omar</p>
       </div>
     </div>
   </div>
@@ -182,27 +271,32 @@
     <div class="card channel-card">
       <div class="card-title">More from Coach Omar</div>
       <p class="channel-blurb">New exercise tutorials every week at Functional Core Fitness — Movement Foundations for everyone.</p>
-      <a class="yt-button" href="https://www.youtube.com/@FunctionalCoreFitness" target="_blank"><span>▶</span> Visit the Channel</a>
+      <a class="yt-button" data-track="channel_click" href="https://www.youtube.com/@FunctionalCoreFitness" target="_blank" rel="noopener"><span>▶</span> Visit the Channel</a>
+      <div class="share-row">
+        <button class="yt-button ghost" id="shareBtn" type="button">🔗 Share This Exercise</button>
+      </div>
     </div>
   </div>
   <footer>
     <div class="footer-brand">Functional Core Fitness</div>
-    <div class="footer-note">Updates automatically every week • No login required</div>
+    <div class="footer-note">Updates automatically every Monday • No login required</div>
   </footer>
 </div>
 
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <button class="modal-close" id="modalClose">✕</button>
-    <div class="modal-benefit-title" id="modalTitle"></div>
+<div class="swipe-feedback" id="swipeFeedback" aria-live="polite"></div>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
     <div class="modal-subtitle" id="modalSubtitle"></div>
-    <div class="modal-exercise-list" id="modalList"></div>
+    <div id="modalBody"></div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// ANATOMY SVG — defined first so it's available when called
+// ANATOMY — small front/back diagram
 // ============================================================
 var muscleMap = {
   "Quads":                ["fql","fqr"],
@@ -210,10 +304,12 @@ var muscleMap = {
   "Rectus Abdominis":     ["fra"],
   "Transverse Abdominis": ["fta"],
   "Obliques":             ["fol","for"],
+  "Serratus Anterior":    ["fol","for"],
   "Lower Abs":            ["fla"],
   "Hip Flexors":          ["fhfl","fhfr"],
   "Anterior Deltoid":     ["fsl","fsr"],
   "Shoulders":            ["fsl","fsr","bsl","bsr"],
+  "Rear Deltoids":        ["bsl","bsr"],
   "Triceps":              ["btl","btr"],
   "Adductors":            ["fadl","fadr"],
   "Calves":               ["bcl","bcr"],
@@ -224,6 +320,9 @@ var muscleMap = {
   "Glute Minimus":        ["bgml","bgmr"],
   "Hamstrings":           ["bhl","bhr"],
   "Erector Spinae":       ["bel","ber"],
+  "Thoracic Spine":       ["bel","ber"],
+  "Rhomboids":            ["bub"],
+  "Lower Traps":          ["bub"],
   "Lower Back":           ["blb"],
   "Hip Abductors":        ["bgml","bgmr"],
   "Hip Stabilizers":      ["bgml","bgmr","fhfl","fhfr"],
@@ -234,75 +333,84 @@ var muscleMap = {
   "TFL":                  ["bgml","bgmr"]
 };
 
-function ac(id, active) {
-  return active.has(id) ? 'muscle-region active' : 'muscle-region';
-}
+// Detailed anatomy images (tap a muscle tag to open)
+var muscleImages = {
+  "Hamstrings":"01-hamstrings", "Glutes":"02-glutes", "Erector Spinae":"03-erector-spinae-lower-back",
+  "Lower Back":"03-erector-spinae-lower-back", "Core":"04-core", "Quads":"05-quadriceps", "Calves":"06-calves",
+  "Hip Stabilizers":"07-hip-stabilizers", "Hip Flexors":"08-hip-flexors", "Adductors":"09-adductors",
+  "Glute Medius":"10-glute-medius", "Glute Minimus":"11-glute-minimus", "Hip Abductors":"12-hip-abductors",
+  "TFL":"13-tensor-fasciae-latae-tfl", "Transverse Abdominis":"14-transverse-abdominis", "Pelvic Floor":"15-pelvic-floor",
+  "Hip Rotators":"16-hip-rotators", "Shoulder Stabilizers":"17-shoulder-stabilizers", "Lower Abs":"18-lower-abs",
+  "Obliques":"19-obliques", "Pectorals":"20-pectorals-chest", "Shoulders":"21-shoulders",
+  "Rectus Abdominis":"22-rectus-abdominis", "Triceps":"23-triceps", "Anterior Deltoid":"24-anterior-deltoid",
+  "Peroneals":"25-peroneals", "Tibialis Anterior":"26-tibialis-anterior"
+};
+
+function ac(id, active) { return active.has(id) ? 'muscle-region active' : 'muscle-region'; }
 
 function buildAnatomy(muscles) {
   var active = new Set();
-  muscles.forEach(function(m) {
-    var ids = muscleMap[m] || [];
-    ids.forEach(function(id) { active.add(id); });
-  });
+  muscles.forEach(function(m) { (muscleMap[m] || []).forEach(function(id) { active.add(id); }); });
 
-  var front = '<svg viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">'
+  var front = '<svg viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg" aria-label="Front view">'
     + '<ellipse cx="30" cy="9" rx="8" ry="9" class="body-outline"/>'
     + '<rect x="26" y="17" width="8" height="6" class="body-outline"/>'
     + '<rect x="17" y="23" width="26" height="36" rx="4" class="body-outline"/>'
-    + '<ellipse id="fch" cx="24" cy="30" rx="6" ry="5" class="' + ac('fch',active) + '"/>'
+    + '<ellipse cx="24" cy="30" rx="6" ry="5" class="' + ac('fch',active) + '"/>'
     + '<ellipse cx="36" cy="30" rx="6" ry="5" class="' + ac('fch',active) + '"/>'
-    + '<ellipse id="fsl" cx="12" cy="27" rx="5" ry="6" class="' + ac('fsl',active) + '"/>'
-    + '<ellipse id="fsr" cx="48" cy="27" rx="5" ry="6" class="' + ac('fsr',active) + '"/>'
+    + '<ellipse cx="12" cy="27" rx="5" ry="6" class="' + ac('fsl',active) + '"/>'
+    + '<ellipse cx="48" cy="27" rx="5" ry="6" class="' + ac('fsr',active) + '"/>'
     + '<rect x="7" y="33" width="7" height="18" rx="3" class="body-outline"/>'
     + '<rect x="46" y="33" width="7" height="18" rx="3" class="body-outline"/>'
     + '<rect x="7" y="53" width="6" height="15" rx="3" class="body-outline"/>'
     + '<rect x="47" y="53" width="6" height="15" rx="3" class="body-outline"/>'
-    + '<rect id="fta" x="19" y="39" width="22" height="12" rx="3" class="' + ac('fta',active) + '"/>'
-    + '<rect id="fra" x="25" y="37" width="10" height="16" rx="2" class="' + ac('fra',active) + '"/>'
-    + '<path id="fol" d="M17,36 Q19,42 20,52 L17,52 Z" class="' + ac('fol',active) + '"/>'
-    + '<path id="for" d="M43,36 Q41,42 40,52 L43,52 Z" class="' + ac('for',active) + '"/>'
-    + '<ellipse id="fla" cx="30" cy="54" rx="8" ry="4" class="' + ac('fla',active) + '"/>'
-    + '<ellipse id="fhfl" cx="23" cy="61" rx="5" ry="4" class="' + ac('fhfl',active) + '"/>'
-    + '<ellipse id="fhfr" cx="37" cy="61" rx="5" ry="4" class="' + ac('fhfr',active) + '"/>'
-    + '<rect id="fql" x="18" y="65" width="11" height="28" rx="4" class="' + ac('fql',active) + '"/>'
-    + '<rect id="fqr" x="31" y="65" width="11" height="28" rx="4" class="' + ac('fqr',active) + '"/>'
-    + '<path id="fadl" d="M22,65 Q24,75 23,85 L20,85 Q19,75 20,65 Z" class="' + ac('fadl',active) + '"/>'
-    + '<path id="fadr" d="M38,65 Q36,75 37,85 L40,85 Q41,75 40,65 Z" class="' + ac('fadr',active) + '"/>'
+    + '<rect x="19" y="39" width="22" height="12" rx="3" class="' + ac('fta',active) + '"/>'
+    + '<rect x="25" y="37" width="10" height="16" rx="2" class="' + ac('fra',active) + '"/>'
+    + '<path d="M17,36 Q19,42 20,52 L17,52 Z" class="' + ac('fol',active) + '"/>'
+    + '<path d="M43,36 Q41,42 40,52 L43,52 Z" class="' + ac('for',active) + '"/>'
+    + '<ellipse cx="30" cy="54" rx="8" ry="4" class="' + ac('fla',active) + '"/>'
+    + '<ellipse cx="23" cy="61" rx="5" ry="4" class="' + ac('fhfl',active) + '"/>'
+    + '<ellipse cx="37" cy="61" rx="5" ry="4" class="' + ac('fhfr',active) + '"/>'
+    + '<rect x="18" y="65" width="11" height="28" rx="4" class="' + ac('fql',active) + '"/>'
+    + '<rect x="31" y="65" width="11" height="28" rx="4" class="' + ac('fqr',active) + '"/>'
+    + '<path d="M22,65 Q24,75 23,85 L20,85 Q19,75 20,65 Z" class="' + ac('fadl',active) + '"/>'
+    + '<path d="M38,65 Q36,75 37,85 L40,85 Q41,75 40,65 Z" class="' + ac('fadr',active) + '"/>'
     + '<ellipse cx="23" cy="95" rx="5" ry="4" class="body-outline"/>'
     + '<ellipse cx="37" cy="95" rx="5" ry="4" class="body-outline"/>'
-    + '<rect id="ftl" x="19" y="100" width="7" height="18" rx="3" class="' + ac('ftl',active) + '"/>'
-    + '<rect id="ftr" x="34" y="100" width="7" height="18" rx="3" class="' + ac('ftr',active) + '"/>'
-    + '<rect id="fcll" x="18" y="100" width="9" height="18" rx="3" class="' + ac('fcll',active) + '"/>'
-    + '<rect id="fclr" x="33" y="100" width="9" height="18" rx="3" class="' + ac('fclr',active) + '"/>'
+    + '<rect x="19" y="100" width="7" height="18" rx="3" class="' + ac('ftl',active) + '"/>'
+    + '<rect x="34" y="100" width="7" height="18" rx="3" class="' + ac('ftr',active) + '"/>'
+    + '<rect x="18" y="100" width="9" height="18" rx="3" class="' + ac('fcll',active) + '"/>'
+    + '<rect x="33" y="100" width="9" height="18" rx="3" class="' + ac('fclr',active) + '"/>'
     + '<ellipse cx="22" cy="120" rx="6" ry="3" class="body-outline"/>'
     + '<ellipse cx="38" cy="120" rx="6" ry="3" class="body-outline"/>'
     + '</svg>';
 
-  var back = '<svg viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg">'
+  var back = '<svg viewBox="0 0 60 130" xmlns="http://www.w3.org/2000/svg" aria-label="Back view">'
     + '<ellipse cx="30" cy="9" rx="8" ry="9" class="body-outline"/>'
     + '<rect x="26" y="17" width="8" height="6" class="body-outline"/>'
     + '<rect x="17" y="23" width="26" height="36" rx="4" class="body-outline"/>'
-    + '<ellipse id="bsl" cx="12" cy="27" rx="5" ry="6" class="' + ac('bsl',active) + '"/>'
-    + '<ellipse id="bsr" cx="48" cy="27" rx="5" ry="6" class="' + ac('bsr',active) + '"/>'
+    + '<path d="M20,25 L40,25 L36,38 L24,38 Z" class="' + ac('bub',active) + '"/>'
+    + '<ellipse cx="12" cy="27" rx="5" ry="6" class="' + ac('bsl',active) + '"/>'
+    + '<ellipse cx="48" cy="27" rx="5" ry="6" class="' + ac('bsr',active) + '"/>'
     + '<rect x="7" y="33" width="7" height="18" rx="3" class="body-outline"/>'
     + '<rect x="46" y="33" width="7" height="18" rx="3" class="body-outline"/>'
-    + '<rect id="btl" x="7" y="33" width="7" height="14" rx="3" class="' + ac('btl',active) + '"/>'
-    + '<rect id="btr" x="46" y="33" width="7" height="14" rx="3" class="' + ac('btr',active) + '"/>'
+    + '<rect x="7" y="33" width="7" height="14" rx="3" class="' + ac('btl',active) + '"/>'
+    + '<rect x="46" y="33" width="7" height="14" rx="3" class="' + ac('btr',active) + '"/>'
     + '<rect x="7" y="53" width="6" height="15" rx="3" class="body-outline"/>'
     + '<rect x="47" y="53" width="6" height="15" rx="3" class="body-outline"/>'
-    + '<rect id="bel" x="24" y="25" width="5" height="30" rx="2" class="' + ac('bel',active) + '"/>'
-    + '<rect id="ber" x="31" y="25" width="5" height="30" rx="2" class="' + ac('ber',active) + '"/>'
-    + '<rect id="blb" x="22" y="48" width="16" height="10" rx="2" class="' + ac('blb',active) + '"/>'
-    + '<ellipse id="bgml" cx="22" cy="60" rx="6" ry="4" class="' + ac('bgml',active) + '"/>'
-    + '<ellipse id="bgmr" cx="38" cy="60" rx="6" ry="4" class="' + ac('bgmr',active) + '"/>'
-    + '<ellipse id="bgl" cx="23" cy="67" rx="7" ry="6" class="' + ac('bgl',active) + '"/>'
-    + '<ellipse id="bgr" cx="37" cy="67" rx="7" ry="6" class="' + ac('bgr',active) + '"/>'
-    + '<rect id="bhl" x="18" y="72" width="11" height="22" rx="4" class="' + ac('bhl',active) + '"/>'
-    + '<rect id="bhr" x="31" y="72" width="11" height="22" rx="4" class="' + ac('bhr',active) + '"/>'
+    + '<rect x="24" y="25" width="5" height="30" rx="2" class="' + ac('bel',active) + '"/>'
+    + '<rect x="31" y="25" width="5" height="30" rx="2" class="' + ac('ber',active) + '"/>'
+    + '<rect x="22" y="48" width="16" height="10" rx="2" class="' + ac('blb',active) + '"/>'
+    + '<ellipse cx="22" cy="60" rx="6" ry="4" class="' + ac('bgml',active) + '"/>'
+    + '<ellipse cx="38" cy="60" rx="6" ry="4" class="' + ac('bgmr',active) + '"/>'
+    + '<ellipse cx="23" cy="67" rx="7" ry="6" class="' + ac('bgl',active) + '"/>'
+    + '<ellipse cx="37" cy="67" rx="7" ry="6" class="' + ac('bgr',active) + '"/>'
+    + '<rect x="18" y="72" width="11" height="22" rx="4" class="' + ac('bhl',active) + '"/>'
+    + '<rect x="31" y="72" width="11" height="22" rx="4" class="' + ac('bhr',active) + '"/>'
     + '<ellipse cx="23" cy="95" rx="5" ry="4" class="body-outline"/>'
     + '<ellipse cx="37" cy="95" rx="5" ry="4" class="body-outline"/>'
-    + '<rect id="bcl" x="19" y="100" width="8" height="18" rx="3" class="' + ac('bcl',active) + '"/>'
-    + '<rect id="bcr" x="33" y="100" width="8" height="18" rx="3" class="' + ac('bcr',active) + '"/>'
+    + '<rect x="19" y="100" width="8" height="18" rx="3" class="' + ac('bcl',active) + '"/>'
+    + '<rect x="33" y="100" width="8" height="18" rx="3" class="' + ac('bcr',active) + '"/>'
     + '<ellipse cx="22" cy="120" rx="6" ry="3" class="body-outline"/>'
     + '<ellipse cx="38" cy="120" rx="6" ry="3" class="body-outline"/>'
     + '</svg>';
@@ -312,6 +420,8 @@ function buildAnatomy(muscles) {
 
 // ============================================================
 // EXERCISE DATA
+// To add a new exercise: add it to the END of this list.
+// The schedule adjusts itself — no offset to change.
 // ============================================================
 var exercises = [
   { name:"BIRD DOG", tagline:"Core Stability & Balance.", videoId:"rDerTS524Og", desc:"The Bird Dog is one of the best exercises to improve core stability, balance, and spinal control. It strengthens your lower back, glutes, and deep abdominal muscles for better coordination and posture.", muscles:["Erector Spinae","Glutes","Core","Shoulder Stabilizers"], benefits:[{icon:"🔒",text:"Core Stability"},{icon:"🍑",text:"Glute Activation"},{icon:"⚖️",text:"Balance & Control"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Keep your spine neutral — no rotation allowed","Move slow and controlled, hold 2–3 seconds","Think 'long' — reach forward and back simultaneously","Keep hips square to the ground at all times"] },
@@ -332,8 +442,8 @@ var exercises = [
   { name:"DECELERATION SQUATS", tagline:"Control, Knee Stability & Movement.", videoId:"xKX841sMnIk", desc:"Deceleration Squats train your body to absorb force safely — a critical skill for athletes and anyone who wants healthy knees and injury-resilient movement patterns.", muscles:["Quads","Glutes","Hamstrings","Core","Calves"], benefits:[{icon:"🦵",text:"Hip Strength"},{icon:"🧠",text:"Motor Control"},{icon:"🏃",text:"Athletic Performance"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Land softly — think 'quiet feet'","Push knees out over toes as you absorb","Keep your chest tall throughout","Start slow, build speed as control improves"] },
   { name:"BANDED SIDE-TO-SIDE WALKS", tagline:"Build Hip Strength & Prevent Injury.", videoId:"Vtactv6CVbA", desc:"Banded Side-to-Side Walks activate the glute medius and hip abductors — the muscles responsible for knee alignment, hip stability, and injury prevention.", muscles:["Glute Medius","Glute Minimus","Hip Abductors","TFL"], benefits:[{icon:"🍑",text:"Glute Activation"},{icon:"🦵",text:"Hip Strength"},{icon:"⚖️",text:"Balance & Control"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Keep tension in the band the entire time","Stay low — don't stand up between steps","Step wide enough to feel your hip working","Keep your toes forward — don't turn them out"] },
   { name:"PUSH-UP", tagline:"Proper Form, Upper Body Strength.", videoId:"cOHvJvKhbIo", desc:"The Push-Up is a complete upper-body and core exercise. Coach Omar breaks down proper form so you build chest, shoulder, and tricep strength safely and efficiently.", muscles:["Pectorals","Triceps","Anterior Deltoid","Core"], benefits:[{icon:"💪",text:"Core Strength"},{icon:"🔒",text:"Core Stability"},{icon:"🏃",text:"Athletic Performance"},{icon:"📈",text:"Beginner Friendly"}], tips:["Body forms one straight line — no sagging hips","Elbows at 45° — not flared straight out","Full range: chest toward floor, arms full extension","Elevate hands to make easier, feet for harder"] },
-  { name:"PLANK", tagline:"Hold the Line. Build the Core.", videoId:"n141yZWEmn0", desc:"The Plank is the foundation of core training. Coach Omar breaks down proper technique so you build deep core strength, improve posture, and protect your lower back.", muscles:["Transverse Abdominis","Rectus Abdominis","Shoulders","Glutes"], benefits:[{icon:"💪",text:"Core Strength"},{icon:"🔒",text:"Core Stability"},{icon:"🧍",text:"Improves Posture"},{icon:"🛡️",text:"Low Back Protection"}], tips:["Keep hips level — no sagging or piking up","Brace your abs like you're about to take a punch","Press the floor away — don't just hold on","Start at 20 sec, build toward 60+ seconds"] },
-  { name:"SIDE PLANK", tagline:"Lateral Strength. Anti-Lateral Flexion.", videoId:"dWntXGJ4cFg", desc:"The Side Plank targets the obliques, glute medius, and hip stabilizers — muscles most people neglect. Coach Omar shows you how to do it right for real lateral core strength.", muscles:["Obliques","Glute Medius","Transverse Abdominis","Shoulder Stabilizers"], benefits:[{icon:"💪",text:"Core Stability"},{icon:"⚡",text:"Lateral Strength"},{icon:"🧍",text:"Improves Posture"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Elbow directly under your shoulder","Stack your feet or stagger for more balance","Keep hips lifted — don't let them sag","Build to 45+ seconds per side"] },
+  { name:"PLANK", tagline:"Hold the Line. Build the Core.", videoId:"n141yZWEmn0", desc:"The Plank is the foundation of core training. Coach Omar breaks down proper technique so you build deep core strength, improve posture, and protect your lower back.", muscles:["Transverse Abdominis","Rectus Abdominis","Shoulders","Glutes"], benefits:[{icon:"💪",text:"Core Strength"},{icon:"🔒",text:"Core Stability"},{icon:"🧍",text:"Improves Posture"},{icon:"🛡️",text:"Lumbar Protection"}], tips:["Keep hips level — no sagging or piking up","Brace your abs like you're about to take a punch","Press the floor away — don't just hold on","Start at 20 sec, build toward 60+ seconds"] },
+  { name:"SIDE PLANK", tagline:"Lateral Strength. Anti-Lateral Flexion.", videoId:"dWntXGJ4cFg", desc:"The Side Plank targets the obliques, glute medius, and hip stabilizers — muscles most people neglect. Coach Omar shows you how to do it right for real lateral core strength.", muscles:["Obliques","Glute Medius","Transverse Abdominis","Shoulder Stabilizers"], benefits:[{icon:"🔒",text:"Core Stability"},{icon:"⚡",text:"Lateral Strength"},{icon:"🧍",text:"Improves Posture"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Elbow directly under your shoulder","Stack your feet or stagger for more balance","Keep hips lifted — don't let them sag","Build to 45+ seconds per side"] },
   { name:"SPLIT-STANCE SQUAT", tagline:"Single-Leg Strength & Knee Stability.", videoId:"07_SRDAsoYI", desc:"The Split-Stance Squat builds single-leg strength and knee stability in a controlled, staggered position — a great stepping stone between a squat and a full lunge.", muscles:["Quads","Glutes","Hamstrings","Core"], benefits:[{icon:"🦵",text:"Hip Strength"},{icon:"⚖️",text:"Balance & Control"},{icon:"🍑",text:"Glute Activation"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Keep your front knee tracking over your toes","Stay tall — don't lean forward","Drive through the front heel","Control the descent on every rep"] },
   { name:"SIDE LUNGE", tagline:"Lateral Strength & Hip Mobility.", videoId:"r-Qcgb_l4BU", desc:"The Side Lunge builds lateral hip strength, adductor flexibility, and single-leg stability — movements most training programs completely ignore.", muscles:["Quads","Glutes","Adductors","Core"], benefits:[{icon:"🦵",text:"Hip Strength"},{icon:"⚖️",text:"Balance & Control"},{icon:"🏃",text:"Athletic Performance"},{icon:"🛡️",text:"Injury Prevention"}], tips:["Push hips back as you step out","Keep your chest tall throughout","Knee tracks over toes — don't cave in","Drive through the heel to return"] },
   { name:"BEAR CRAWL HOLD", tagline:"Core Stability & Full Body Control.", videoId:"vpzXA9WDprk", desc:"The Bear Crawl Hold builds core stability, shoulder strength, and full-body tension from the ground up — one of the most underrated exercises in functional fitness.", muscles:["Core","Shoulder Stabilizers","Quads","Hip Flexors"], benefits:[{icon:"🔒",text:"Core Stability"},{icon:"💪",text:"Core Strength"},{icon:"🧠",text:"Motor Control"},{icon:"🏃",text:"Athletic Performance"}], tips:["Keep knees just one inch off the ground","Neutral spine — no sagging or arching","Breathe steadily — don't hold your breath","Build hold time before adding movement"] },
@@ -347,130 +457,308 @@ var exercises = [
 ];
 
 // ============================================================
-// ROTATION LOGIC
+// ROTATION — one exercise per week, changes every Monday.
+// Counts weeks from a fixed Monday so it never jumps at New Year.
+// ANCHOR_INDEX = position (0-based) shown the week of ANCHOR.
 // ============================================================
-function getWeekNumber(date) {
+var ANCHOR = Date.UTC(2026, 10, 23); // Monday, Nov 23 2026
+var ANCHOR_INDEX = 12;               // Single-Leg Forward Reach
+var WEEK_MS = 7 * 86400000;
+
+function mod(n, m) { return ((n % m) + m) % m; }
+function mondayUTC(date) {
+  var d = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+  var dow = new Date(d).getUTCDay() || 7;   // Mon=1 … Sun=7
+  return d - (dow - 1) * 86400000;
+}
+function isoWeek(date) {
   var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   var dayNum = d.getUTCDay() || 7;
   d.setUTCDate(d.getUTCDate() + 4 - dayNum);
   var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
 }
+function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+exercises.forEach(function(ex) { ex.slug = slugify(ex.name); });
+function titleCase(s) { return s.toLowerCase().replace(/(^|[\s\-\/])([a-z])/g, function(m, p, c) { return p + c.toUpperCase(); }); }
 
 var today = new Date();
-var weekNum = getWeekNumber(today);
-var currentIndex = (weekNum - 1 + 25) % exercises.length;
+var monday = mondayUTC(today);
+var weeksSinceAnchor = Math.round((monday - ANCHOR) / WEEK_MS);
+var weekIndex = mod(ANCHOR_INDEX + weeksSinceAnchor, exercises.length);
 
-document.getElementById('weekBadge').textContent = 'Week ' + weekNum + ' \u00B7 ' + today.getFullYear();
+var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+(function() {
+  var m = new Date(monday), s = new Date(monday + 6 * 86400000);
+  var range = MONTHS[m.getUTCMonth()] + ' ' + m.getUTCDate() + '–' + (s.getUTCMonth() !== m.getUTCMonth() ? MONTHS[s.getUTCMonth()] + ' ' : '') + s.getUTCDate();
+  document.getElementById('weekBadge').textContent = 'Week ' + isoWeek(today) + ' · ' + range;
+})();
 
-function renderExercise(idx) {
-  var i = ((idx % exercises.length) + exercises.length) % exercises.length;
+// ============================================================
+// ANALYTICS helper (GA4)
+// ============================================================
+function track(name, params) { try { if (window.gtag) gtag('event', name, params || {}); } catch (e) {} }
+
+// ============================================================
+// RENDER
+// ============================================================
+var activeIndex = weekIndex;
+var lastTrigger = null;
+
+function el(id) { return document.getElementById(id); }
+
+function fitTitle() {
+  var n = el('exerciseName');
+  n.style.fontSize = '';
+  var size = parseFloat(getComputedStyle(n).fontSize);
+  // Measure the longest word so names never break mid-word
+  var probe = document.createElement('span');
+  probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:inherit;letter-spacing:inherit';
+  n.appendChild(probe);
+  var words = n.firstChild && n.firstChild.nodeType === 3 ? n.firstChild.nodeValue.split(/\s+/) : [];
+  var guard = 0;
+  while (guard++ < 40) {
+    var widest = 0;
+    words.forEach(function(w) { probe.textContent = w; widest = Math.max(widest, probe.offsetWidth); });
+    if (widest <= n.clientWidth || size < 24) break;
+    size *= 0.94; n.style.fontSize = size + 'px';
+  }
+  n.removeChild(probe);
+}
+window.addEventListener('resize', function() { fitTitle(); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(function() { fitTitle(); });
+
+function renderExercise(idx, opts) {
+  opts = opts || {};
+  var i = mod(idx, exercises.length);
+  activeIndex = i;
   var ex = exercises[i];
-  var nextEx = exercises[((i + 1) % exercises.length + exercises.length) % exercises.length];
+  var isThisWeek = (i === weekIndex);
 
-  document.getElementById('exerciseName').textContent = ex.name;
-  document.getElementById('exerciseTagline').textContent = ex.tagline;
-  document.getElementById('exerciseDesc').textContent = ex.desc;
-  document.getElementById('nextExercise').textContent = nextEx.name;
+  ['exerciseName','exerciseTagline','eyebrow'].forEach(function(id) {
+    var n = el(id); n.classList.remove('anim'); void n.offsetWidth; n.classList.add('anim');
+  });
+  el('exerciseName').textContent = ex.name;
+  el('exerciseTagline').textContent = ex.tagline;
+  fitTitle();
+  el('exerciseDesc').textContent = ex.desc;
+  el('eyebrow').textContent = isThisWeek ? '⚡ Exercise of the Week' : 'Exercise Library';
+  el('eyebrow').classList.toggle('browsing', !isThisWeek);
+  el('todayBtn').classList.toggle('show', !isThisWeek);
+  el('navCount').textContent = (i + 1) + ' / ' + exercises.length;
+  document.title = titleCase(ex.name) + ' — Exercise of the Week · Functional Core Fitness';
 
-  var title = ex.name.charAt(0) + ex.name.slice(1).toLowerCase();
-  document.getElementById('videoLabel').textContent = '\u25B6 Watch the ' + title + ' Tutorial';
-  document.getElementById('ytWatchLabel').textContent = 'Watch the ' + title + ' Tutorial';
+  // "Next" card: real schedule when on this week, otherwise next in library
+  var nextEx = exercises[mod(i + 1, exercises.length)];
+  el('nextExercise').textContent = nextEx.name;
+  el('nextTitle').textContent = isThisWeek ? 'Coming Next Week' : 'Next in the Library';
+  el('nextLabel').textContent = isThisWeek ? 'Get ready for →' : 'Tap › to see';
+  el('nextTag').textContent = isThisWeek ? 'Preview' : '#' + (mod(i + 1, exercises.length) + 1);
 
+  var title = titleCase(ex.name);
+  el('ytWatchLabel').textContent = 'Watch the ' + title + ' Tutorial';
   var url = 'https://www.youtube.com/watch?v=' + ex.videoId;
-  document.getElementById('ytEmbed').src = 'https://www.youtube.com/embed/' + ex.videoId + '?rel=0&modestbranding=1';
-  document.getElementById('ytWatchLink').href = url;
-  document.getElementById('qrCode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(url) + '&color=0a1628&bgcolor=ffffff&margin=4';
+  el('ytEmbed').src = 'https://www.youtube-nocookie.com/embed/' + ex.videoId + '?rel=0&modestbranding=1&playsinline=1';
+  el('ytEmbed').title = title + ' tutorial video';
+  el('ytWatchLink').href = url;
+  el('qrCode').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(url) + '&color=0a1628&bgcolor=ffffff&margin=4';
 
-  // Anatomy
-  document.getElementById('anatomyDiagram').innerHTML = buildAnatomy(ex.muscles);
+  el('anatomyDiagram').innerHTML = buildAnatomy(ex.muscles);
 
-  // Muscles
-  var ml = document.getElementById('musclesList');
-  ml.innerHTML = '';
+  var ml = el('musclesList'); ml.innerHTML = '';
   ex.muscles.forEach(function(m) {
-    var tag = document.createElement('span');
+    var hasImg = !!muscleImages[m];
+    var tag = document.createElement(hasImg ? 'button' : 'span');
     tag.className = 'muscle-tag';
     tag.textContent = m;
+    if (hasImg) { tag.type = 'button'; tag.setAttribute('aria-label', 'See ' + m + ' anatomy'); tag.addEventListener('click', function() { openMuscle(m, tag); }); }
     ml.appendChild(tag);
   });
 
-  // Benefits
-  var bg = document.getElementById('benefitsGrid');
-  bg.innerHTML = '';
+  var bg = el('benefitsGrid'); bg.innerHTML = '';
   ex.benefits.forEach(function(b) {
-    var div = document.createElement('div');
-    div.className = 'benefit';
-    div.innerHTML = '<div class="benefit-icon">' + b.icon + '</div><div class="benefit-text">' + b.text + '</div>';
-    div.addEventListener('click', function() { openModal(b.text); });
-    bg.appendChild(div);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'benefit';
+    var ic = document.createElement('div'); ic.className = 'benefit-icon'; ic.textContent = b.icon;
+    var tx = document.createElement('div'); tx.className = 'benefit-text'; tx.textContent = b.text;
+    btn.appendChild(ic); btn.appendChild(tx);
+    btn.addEventListener('click', function() { openBenefit(b.text, btn); });
+    bg.appendChild(btn);
   });
 
-  // Tips
-  var tl = document.getElementById('tipsList');
-  tl.innerHTML = '';
+  var tl = el('tipsList'); tl.innerHTML = '';
   ex.tips.forEach(function(tip) {
-    tl.innerHTML += '<li><div class="tip-dot"></div><span>' + tip + '</span></li>';
+    var li = document.createElement('li');
+    var dot = document.createElement('div'); dot.className = 'tip-dot';
+    var sp = document.createElement('span'); sp.textContent = tip;
+    li.appendChild(dot); li.appendChild(sp); tl.appendChild(li);
   });
+
+  // Shareable link: ?ex=bird-dog (clean URL when on this week)
+  if (!opts.skipUrl && window.history && history.replaceState) {
+    var u = new URL(window.location.href);
+    if (isThisWeek) u.searchParams.delete('ex'); else u.searchParams.set('ex', ex.slug);
+    history.replaceState(null, '', u.toString());
+  }
+  if (!opts.silent) track('exercise_view', { exercise_name: title, exercise_position: i + 1, is_this_week: isThisWeek, method: opts.method || 'load' });
 }
 
-renderExercise(currentIndex);
+// Start on a shared exercise if the link has ?ex=…
+(function() {
+  var start = weekIndex;
+  try {
+    var want = new URL(window.location.href).searchParams.get('ex');
+    if (want) {
+      var f = exercises.findIndex(function(e) { return e.slug === want; });
+      if (f >= 0) start = f;
+    }
+  } catch (e) {}
+  renderExercise(start, { method: start === weekIndex ? 'load' : 'shared_link' });
+})();
 
 // ============================================================
-// BENEFITS MODAL
+// NAVIGATION — buttons, keyboard, swipe
 // ============================================================
-function openModal(benefitText) {
-  var matched = exercises.filter(function(ex) {
-    return ex.benefits.some(function(b) { return b.text === benefitText; });
-  });
-  document.getElementById('modalTitle').textContent = benefitText;
-  document.getElementById('modalSubtitle').textContent = matched.length + ' exercise' + (matched.length !== 1 ? 's' : '') + ' in your library with this benefit';
-  var list = document.getElementById('modalList');
-  list.innerHTML = '';
-  matched.forEach(function(ex) {
-    var item = document.createElement('a');
-    item.className = 'modal-exercise-item';
-    item.href = 'https://www.youtube.com/watch?v=' + ex.videoId;
-    item.target = '_blank';
-    item.innerHTML = '<div><div class="modal-exercise-name">' + ex.name + '</div><div class="modal-exercise-tagline">' + ex.tagline + '</div></div><span class="modal-yt-btn">\u25B6 Watch</span>';
-    list.appendChild(item);
-  });
-  document.getElementById('modalOverlay').classList.add('active');
-}
-document.getElementById('modalClose').addEventListener('click', function() { document.getElementById('modalOverlay').classList.remove('active'); });
-document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('active'); });
-
-// ============================================================
-// SWIPE TO NAVIGATE
-// ============================================================
-var swipeStartX = 0;
-var swipeStartY = 0;
-var activeIndex = currentIndex;
-var videoWrap = document.querySelector('.video-wrap');
-var swipeFeedback = document.getElementById('swipeFeedback');
-
-function showSwipeFeedback(msg) {
+var swipeFeedback = el('swipeFeedback');
+function flash(msg) {
   swipeFeedback.textContent = msg;
   swipeFeedback.classList.add('show');
   clearTimeout(swipeFeedback._t);
   swipeFeedback._t = setTimeout(function() { swipeFeedback.classList.remove('show'); }, 900);
 }
+function step(dir, method) {
+  renderExercise(activeIndex + dir, { method: method });
+  flash((dir > 0 ? '→ ' : '← ') + exercises[activeIndex].name);
+}
+el('prevBtn').addEventListener('click', function() { step(-1, 'button'); });
+el('nextBtn').addEventListener('click', function() { step(1, 'button'); });
+el('todayBtn').addEventListener('click', function() { renderExercise(weekIndex, { method: 'this_week' }); });
+document.addEventListener('keydown', function(e) {
+  if (el('modalOverlay').classList.contains('active')) { if (e.key === 'Escape') closeModal(); return; }
+  if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if (e.key === 'ArrowRight') step(1, 'keyboard');
+  else if (e.key === 'ArrowLeft') step(-1, 'keyboard');
+});
 
-videoWrap.addEventListener('touchstart', function(e) {
-  swipeStartX = e.touches[0].clientX;
-  swipeStartY = e.touches[0].clientY;
-}, { passive: true });
+// The video frame swallows touches, so swipes are read on the title area and the page around the video
+var sx = 0, sy = 0, st = 0;
+function onStart(e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now(); }
+function onEnd(e) {
+  var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5 && Date.now() - st < 800) step(dx < 0 ? 1 : -1, 'swipe');
+}
+['hero', 'navCount'].forEach(function(id) {
+  el(id).addEventListener('touchstart', onStart, { passive: true });
+  el(id).addEventListener('touchend', onEnd, { passive: true });
+});
+document.querySelector('.video-hint').addEventListener('touchstart', onStart, { passive: true });
+document.querySelector('.video-hint').addEventListener('touchend', onEnd, { passive: true });
 
-videoWrap.addEventListener('touchend', function(e) {
-  var dx = e.changedTouches[0].clientX - swipeStartX;
-  var dy = e.changedTouches[0].clientY - swipeStartY;
-  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-    if (dx < 0) { activeIndex++; } else { activeIndex--; }
-    var ex = exercises[((activeIndex % exercises.length) + exercises.length) % exercises.length];
-    showSwipeFeedback((dx < 0 ? '\u2192 ' : '\u2190 ') + ex.name);
-    renderExercise(activeIndex);
+// ============================================================
+// MODALS — benefits, muscles, full library
+// ============================================================
+var overlay = el('modalOverlay');
+function openModal(title, subtitle, bodyNode, wide, trigger) {
+  lastTrigger = trigger || null;
+  el('modalTitle').textContent = title;
+  el('modalSubtitle').textContent = subtitle;
+  var body = el('modalBody'); body.innerHTML = ''; body.appendChild(bodyNode);
+  el('modalBox').classList.toggle('wide', !!wide);
+  overlay.classList.add('active');
+  el('modalBox').scrollTop = 0;
+  el('modalClose').focus();
+}
+function closeModal() {
+  overlay.classList.remove('active');
+  if (lastTrigger && lastTrigger.focus) lastTrigger.focus();
+}
+el('modalClose').addEventListener('click', closeModal);
+overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+
+function libItem(ex, idx, badge) {
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'lib-item' + (idx === activeIndex ? ' current' : '');
+  var num = document.createElement('div'); num.className = 'lib-num'; num.textContent = idx + 1;
+  var main = document.createElement('div'); main.className = 'lib-main';
+  var nm = document.createElement('div'); nm.className = 'lib-name'; nm.textContent = ex.name;
+  var tg = document.createElement('div'); tg.className = 'lib-tagline'; tg.textContent = ex.tagline;
+  main.appendChild(nm); main.appendChild(tg);
+  var bd = document.createElement('span'); bd.className = 'lib-badge' + (idx === weekIndex ? ' now' : '');
+  bd.textContent = idx === weekIndex ? 'This Week' : (badge || 'View');
+  b.appendChild(num); b.appendChild(main); b.appendChild(bd);
+  b.addEventListener('click', function() { closeModal(); renderExercise(idx, { method: 'library' }); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  return b;
+}
+
+function openBenefit(benefitText, trigger) {
+  var list = document.createElement('div'); list.className = 'modal-list';
+  var n = 0;
+  exercises.forEach(function(ex, idx) {
+    if (ex.benefits.some(function(b) { return b.text === benefitText; })) { list.appendChild(libItem(ex, idx)); n++; }
+  });
+  openModal(benefitText, n + ' exercise' + (n !== 1 ? 's' : '') + ' in the library with this benefit — tap one to view it', list, false, trigger);
+  track('benefit_open', { benefit: benefitText });
+}
+
+function openMuscle(muscle, trigger) {
+  var wrap = document.createElement('div');
+  var box = document.createElement('div'); box.className = 'anatomy-img-box';
+  var img = document.createElement('img');
+  img.src = 'anatomy/' + muscleImages[muscle] + '.jpg';
+  img.alt = muscle + ' anatomy illustration';
+  img.width = 1000; img.height = 549;
+  box.appendChild(img); wrap.appendChild(box);
+  var used = exercises.map(function(ex, idx) { return { ex: ex, idx: idx }; }).filter(function(o) { return o.ex.muscles.indexOf(muscle) >= 0; });
+  var h = document.createElement('div'); h.className = 'muscle-used-in'; h.textContent = 'Exercises that train it (' + used.length + ')';
+  wrap.appendChild(h);
+  var list = document.createElement('div'); list.className = 'modal-list';
+  used.forEach(function(o) { list.appendChild(libItem(o.ex, o.idx)); });
+  wrap.appendChild(list);
+  openModal(muscle, 'Where it is and what it does for you', wrap, false, trigger);
+  track('muscle_open', { muscle: muscle });
+}
+
+el('libraryBtn').addEventListener('click', function() {
+  var wrap = document.createElement('div');
+  var search = document.createElement('input');
+  search.type = 'search'; search.className = 'lib-search'; search.placeholder = 'Search exercises, muscles or benefits…';
+  search.setAttribute('aria-label', 'Search exercises');
+  var grid = document.createElement('div'); grid.className = 'lib-grid';
+  function fill(q) {
+    grid.innerHTML = '';
+    q = (q || '').trim().toLowerCase();
+    exercises.forEach(function(ex, idx) {
+      var hay = (ex.name + ' ' + ex.tagline + ' ' + ex.muscles.join(' ') + ' ' + ex.benefits.map(function(b) { return b.text; }).join(' ')).toLowerCase();
+      if (!q || hay.indexOf(q) >= 0) grid.appendChild(libItem(ex, idx));
+    });
+    if (!grid.children.length) { var p = document.createElement('p'); p.className = 'channel-blurb'; p.textContent = 'No matches.'; grid.appendChild(p); }
   }
-}, { passive: true });
+  search.addEventListener('input', function() { fill(search.value); });
+  fill('');
+  wrap.appendChild(search); wrap.appendChild(grid);
+  openModal('All Exercises', exercises.length + ' movements · a new one every Monday', wrap, true, el('libraryBtn'));
+  track('library_open');
+});
+
+// ============================================================
+// SHARE + click tracking
+// ============================================================
+el('shareBtn').addEventListener('click', function() {
+  var ex = exercises[activeIndex];
+  var u = new URL(window.location.href);
+  u.searchParams.set('ex', ex.slug);
+  var data = { title: titleCase(ex.name) + ' — Functional Core Fitness', text: 'Try this with Coach Omar: ' + titleCase(ex.name), url: u.toString() };
+  track('share', { method: navigator.share ? 'native' : 'copy', content_type: 'exercise', item_id: ex.slug });
+  if (navigator.share) { navigator.share(data).catch(function() {}); }
+  else if (navigator.clipboard) { navigator.clipboard.writeText(data.url).then(function() { flash('Link copied'); }); }
+  else { window.prompt('Copy this link:', data.url); }
+});
+el('ytWatchLink').addEventListener('click', function() { track('video_click', { exercise_name: titleCase(exercises[activeIndex].name) }); });
+document.querySelectorAll('[data-track]').forEach(function(a) {
+  a.addEventListener('click', function() { track(a.getAttribute('data-track')); });
+});
 </script>
 </body>
 </html>
