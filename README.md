@@ -17,9 +17,13 @@ A new exercise every Monday from Coach Omar Lima's YouTube library. The page pic
 ## Adding a new exercise
 Open `exercise-of-the-week.html`, find `var exercises = [`, and add the new exercise **at the end of the list**. The schedule adjusts itself, so there is no offset number to change.
 
+## Adding a video to the Exercise Library
+Open `index.html`, find `const videos = [`, copy any line and change the name, YouTube ID, tags and series. The library also lives in the `exercise-library` repo, so make the same change there.
+
 ## Files
 - `exercise-of-the-week.html`: the main page
 - `join.html`: the sign-up page
-- `index.html`: the exercise library page
+- `index.html`: the Exercise Library (66 videos, filters, in-page player)
+- `fcf-logo.png`: the logo used on every page
 - `anatomy/`: web-sized anatomy pictures used on the page
 - `muscle-images/`: full-size originals of the anatomy pictures

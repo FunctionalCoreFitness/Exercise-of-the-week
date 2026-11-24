@@ -43,7 +43,8 @@
     @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
     .page { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 24px 60px; }
     header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0 16px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
-    .brand img { height: 52px; width: auto; filter: brightness(1.1); opacity: 0.95; display: block; }
+    .brand { display: inline-block; background:#fff;border-radius:10px;padding:6px 12px;box-shadow:0 4px 18px rgba(0,0,0,.35); }
+    .brand img { height: 38px; width: auto; display: block; }
     .header-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
     .week-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 100px; padding: 6px 18px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; color: var(--silver); text-transform: uppercase; }
     .coach-line { font-size:0.7rem; color:var(--silver); letter-spacing:0.08em; }
@@ -157,7 +158,8 @@
     @media (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) {
       .page { padding: 0 16px 24px; max-width: 100%; }
       header { padding: 6px 0 4px; margin-bottom: 4px; }
-      .brand img { height: 32px; }
+      .brand { padding: 3px 8px; border-radius: 7px; }
+      .brand img { height: 26px; }
       .eyebrow { font-size: 1.6rem; margin-bottom: 1px; }
       .exercise-name { font-size: clamp(3.2rem, 9vw, 6.5rem); margin-bottom: 1px; }
       .tagline { font-size: 0.78rem; margin-bottom: 6px; }
@@ -194,7 +196,7 @@
 <div class="bg-glow"></div>
 <div class="page">
   <header>
-    <div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgNDgwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJ0ZXh0R3JhZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjAiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNEE3RUM3Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJkN2RkMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDwhLS0gRlVOQ1RJT05BTCBDT1JFIC0tPgogIDx0ZXh0IHg9IjEwIiB5PSI0MiIKICAgIGZvbnQtZmFtaWx5PSInQmFybG93IENvbmRlbnNlZCcsICdBcmlhbCBOYXJyb3cnLCBBcmlhbCwgc2Fucy1zZXJpZiIKICAgIGZvbnQtd2VpZ2h0PSI3MDAiCiAgICBmb250LXNpemU9IjM0IgogICAgbGV0dGVyLXNwYWNpbmc9IjMiCiAgICBmaWxsPSJ1cmwoI3RleHRHcmFkKSI+RlVOQ1RJT05BTCBDT1JFPC90ZXh0PgoKICA8IS0tIEZJVE5FU1MgLS0+CiAgPHRleHQgeD0iMTIiIHk9IjY0IgogICAgZm9udC1mYW1pbHk9IidCYXJsb3cgQ29uZGVuc2VkJywgJ0FyaWFsIE5hcnJvdycsIEFyaWFsLCBzYW5zLXNlcmlmIgogICAgZm9udC13ZWlnaHQ9IjYwMCIKICAgIGZvbnQtc2l6ZT0iMTgiCiAgICBsZXR0ZXItc3BhY2luZz0iMTIiCiAgICBmaWxsPSIjOUFBQUJCIj5GSVRORVNTPC90ZXh0PgoKICA8IS0tIEFjY2VudCBsaW5lIHVuZGVyIEZJVE5FU1MgLS0+CiAgPGxpbmUgeDE9IjEwIiB5MT0iNzAiIHgyPSIzMTAiIHkyPSI3MCIgc3Ryb2tlPSIjNEE3RUM3IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwLjMiLz4KPC9zdmc+Cg==" alt="Functional Core Fitness"></div>
+    <a class="brand" href="index.html" aria-label="Exercise Library"><img src="fcf-logo.png" alt="Functional Core Fitness" width="202" height="48"></a>
     <div class="header-right">
       <div class="week-badge" id="weekBadge">Week —</div>
       <div class="coach-line">with Coach Omar Lima</div>
@@ -271,7 +273,8 @@
     <div class="card channel-card">
       <div class="card-title">More from Coach Omar</div>
       <p class="channel-blurb">New exercise tutorials every week at Functional Core Fitness — Movement Foundations for everyone.</p>
-      <a class="yt-button" data-track="channel_click" href="https://www.youtube.com/@FunctionalCoreFitness" target="_blank" rel="noopener"><span>▶</span> Visit the Channel</a>
+      <a class="yt-button" data-track="channel_click" href="https://www.youtube.com/@FunctionalCoreFitness?sub_confirmation=1" target="_blank" rel="noopener"><span>▶</span> Subscribe on YouTube</a>
+      <a class="yt-button ghost" data-track="library_page_click" href="index.html">📚 Full Video Library</a>
       <div class="share-row">
         <button class="yt-button ghost" id="shareBtn" type="button">🔗 Share This Exercise</button>
       </div>
